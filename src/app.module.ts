@@ -12,7 +12,10 @@ dotenv.config();
 
 @Module({
   imports: [
-    JwtModule.register({}),
+    JwtModule.register({
+      secret: process.env.JWT_SECRET,
+    }),
+
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TypeOrmModule.forRoot({
       name: 'default',

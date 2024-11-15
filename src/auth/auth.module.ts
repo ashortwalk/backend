@@ -12,8 +12,15 @@ import { User } from './entities';
 import { Mail } from 'src/common';
 import { RedisModule } from 'src/common/redis';
 import { JwtModule } from '@nestjs/jwt';
+import * as dotenv from 'dotenv';
+
+dotenv.config();
+
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), JwtModule.register({})],
+  imports: [
+    TypeOrmModule.forFeature([User]),
+    JwtModule.register({ secret: process.env.JWT_SECRET }),
+  ],
   controllers: [AuthController],
   providers: [
     Mail,

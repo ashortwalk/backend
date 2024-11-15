@@ -45,7 +45,7 @@ export class AuthGuard implements CanActivate {
         throw new ForbiddenException('Invalid token');
       }
 
-      const hasRole = roles.includes(user.role);
+      const hasRole = roles.includes(user.payload.role);
       if (!hasRole) {
         throw new ForbiddenException('User does not have the required role');
       }

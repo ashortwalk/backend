@@ -9,6 +9,7 @@ import { PostService } from './services/posts.service';
 import { AzureBlobService } from './services/azure-blob.service';
 import { PostRepository } from './repositories/posts.repository';
 import { AuthModule } from 'src/user/user.module';
+import { ResizeImagePipe } from './services/resize.service';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ dotenv.config();
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [PostsController],
-  providers: [PostService, PostRepository, AzureBlobService],
+  providers: [PostService, PostRepository, AzureBlobService, ResizeImagePipe],
   exports: [],
 })
 export class PostsModule {}

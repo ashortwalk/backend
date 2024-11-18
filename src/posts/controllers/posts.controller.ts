@@ -62,7 +62,6 @@ export class PostsController {
 
   @Patch(':postId')
   @UseGuards(AuthGuard())
-  @Roles('user')
   @UseInterceptors(FileInterceptor('file'))
   async updatePost(
     @Req() req,

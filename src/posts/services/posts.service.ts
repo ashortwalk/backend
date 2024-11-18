@@ -68,7 +68,7 @@ export class PostService {
       await this.azureBlobService.deleteFile(post.thumbnail, 'thumbnails');
     }
 
-    await this.postRepository.updatePostById(
+    return await this.postRepository.updatePostById(
       postId,
       updatePostDto,
       imgURL,

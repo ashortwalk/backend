@@ -32,4 +32,14 @@ export class PostService {
       createPostDto,
     );
   }
+
+  async findPost(postId: string) {
+    const post = await this.postRepository.findPostById(postId);
+    return post;
+  }
+
+  async findPosts(page: number) {
+    const posts = await this.postRepository.findPosts(page);
+    return posts;
+  }
 }

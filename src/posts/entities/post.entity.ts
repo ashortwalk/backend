@@ -23,6 +23,9 @@ export class Post extends BaseEntity {
   viewCount: bigint;
 
   @Column({ type: 'varchar' })
+  userId: string;
+
+  @Column({ type: 'varchar' })
   nickname: string;
 
   @ManyToOne(() => User, user => user.post, { nullable: false })

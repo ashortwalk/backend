@@ -1,7 +1,11 @@
 import {
+  BadRequestException,
   Body,
   Controller,
+  Get,
+  Param,
   Post,
+  Query,
   Req,
   UploadedFile,
   UseGuards,
@@ -34,5 +38,23 @@ export class PostsController {
       file,
       createPostDto,
     );
+  }
+
+  @Get(':postId')
+  async getPost(@Param() param) {
+    const { postId } = param;
+    if (!postId) {
+      throw new BadRequestException();
+    }
+    return await this.postService.findPost(postId);
+  }
+
+  @Get()
+  async getPosts(@Query() query) {
+    let { page } = query;
+    if (!page) {
+      page = 1;
+    }
+    return await this.postService.findPosts(page);
   }
 }

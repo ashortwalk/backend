@@ -31,18 +31,18 @@ export class AuthService {
       req.user.password,
     );
     const accessToken = await this.createAccessToken(
-      { id: existingUser.id, role: user.role },
+      { id: existingUser.id, role: user.role, nickname: user.nickname },
       existingUser,
     );
     const refreshToken = await this.createRefreshToken(
-      { id: existingUser.id, role: user.role },
+      { id: existingUser.id, role: user.role, nickname: user.nickname },
       existingUser,
     );
     return { accessToken, refreshToken };
   }
 
   async createAccessToken(
-    payload: { id: string; role: string },
+    payload: { id: string; role: string; nickname: string },
     user: User,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
@@ -57,7 +57,7 @@ export class AuthService {
   }
 
   async createRefreshToken(
-    payload: { id: string; role: string },
+    payload: { id: string; role: string; nickname: string },
     user: User,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
@@ -84,11 +84,11 @@ export class AuthService {
       throw new BadRequestException();
     }
     const accessToken = await this.createAccessToken(
-      { id: user.id, role: user.role },
+      { id: user.id, role: user.role, nickname: user.nickname },
       user,
     );
     const refreshToken = await this.createRefreshToken(
-      { id: user.id, role: user.role },
+      { id: user.id, role: user.role, nickname: user.nickname },
       user,
     );
     return { accessToken, refreshToken };

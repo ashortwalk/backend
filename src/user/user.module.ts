@@ -13,6 +13,8 @@ import { Mail } from 'src/common';
 import { RedisModule } from 'src/common/redis';
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
+import { UserController } from './controllers/user.controller';
+import { PassportModule } from '@nestjs/passport';
 
 dotenv.config();
 
@@ -20,27 +22,19 @@ dotenv.config();
   imports: [
     TypeOrmModule.forFeature([User]),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
+    PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  controllers: [AuthController],
+  controllers: [AuthController, UserController],
   providers: [
     Mail,
-    UserRepository,
     AccessTokenRepository,
     RefreshTokenRepository,
     KakaoStrategy,
     UserService,
     AuthService,
     RedisModule,
-  ],
-  exports: [
-    Mail,
     UserRepository,
-    AccessTokenRepository,
-    RefreshTokenRepository,
-    KakaoStrategy,
-    UserService,
-    AuthService,
-    RedisModule,
   ],
+  exports: [UserRepository],
 })
 export class AuthModule {}

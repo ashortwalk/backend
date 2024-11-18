@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './user/user.module';
 import * as dotenv from 'dotenv';
 import { PostsModule } from './posts/post.module';
 import { RedisModule } from './common/redis';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './auth/strategies/jwt.strategy';
+import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 
 dotenv.config();
@@ -25,7 +25,7 @@ dotenv.config();
       username: process.env.DB_USER,
       password: process.env.DB_PW,
       database: process.env.DB_NAME,
-      entities: ['dist/**/**.entity{.ts,.js}'],
+      entities: ['dist/**/**.entity.{js,ts}'],
       synchronize: true,
     }),
 

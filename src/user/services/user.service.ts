@@ -91,11 +91,11 @@ export class UserService {
       type,
     );
 
-    const accessToken = this.createAccessToken(
+    const accessToken = await this.createAccessToken(
       { id: result.id, role: result.role },
       result,
     );
-    const refreshToken = this.createRefreshToken(
+    const refreshToken = await this.createRefreshToken(
       { id: result.id, role: result.role },
       result,
     );
@@ -142,5 +142,9 @@ export class UserService {
       Number(expiresIn),
     );
     return token;
+  }
+
+  async updateUser(id: string, nickname: string): Promise<User> {
+    return await this.userRepository.updateUser(id, nickname);
   }
 }

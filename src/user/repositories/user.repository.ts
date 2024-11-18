@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { User } from '../entities';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
@@ -15,12 +15,20 @@ export class UserRepository extends Repository<User> {
     super(repo.target, repo.manager, repo.queryRunner);
   }
 
-  async findByEmail(email: string) {
-    return this.findOneBy({ email });
+  async findUserById(id: string): Promise<User> {
+    const user = await this.findOneBy({ id });
+    if (!user) {
+      throw new BadRequestException();
+    }
+    return user;
   }
 
-  async findByKakaoPassword(password: string) {
-    return this.findOne({ where: { password, type: 'kakao' } });
+  async findByEmail(email: string): Promise<User> {
+    return await this.findOneBy({ email });
+  }
+
+  async findByKakaoPassword(password: string): Promise<User> {
+    return await this.findOne({ where: { password, type: 'kakao' } });
   }
 
   async createUser(
@@ -28,12 +36,18 @@ export class UserRepository extends Repository<User> {
     nickname: string,
     password: string,
     type: UserType,
-  ) {
+  ): Promise<User> {
     const user = new User();
     user.email = email;
     user.nickname = nickname;
     user.password = password;
     user.type = type;
-    return this.save(user);
+    return await this.save(user);
+  }
+
+  async updateUser(id: string, nickname: string): Promise<User> {
+    const user = await this.findOneBy({ id });
+    user.nickname = nickname;
+    return await this.save(user);
   }
 }

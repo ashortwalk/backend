@@ -4,6 +4,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Query,
   Req,
@@ -16,6 +17,7 @@ import { Roles } from 'src/user/guard/auth.guard';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { PostService } from '../services/posts.service';
 import { AuthGuard } from '@nestjs/passport';
+import { UpdatePostDto } from '../dto/update-post.dto';
 
 @Controller('api/posts')
 export class PostsController {
@@ -56,5 +58,28 @@ export class PostsController {
       page = 1;
     }
     return await this.postService.findPosts(page);
+  }
+
+  @Patch(':postId')
+  @UseGuards(AuthGuard())
+  @Roles('user')
+  @UseInterceptors(FileInterceptor('file'))
+  async updatePost(
+    @Req() req,
+    @Param() param,
+    @Body() updatePostDto: UpdatePostDto,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    const userId = req.user.id;
+    const { postId } = param;
+    if (!postId) {
+      throw new BadRequestException();
+    }
+    return await this.postService.updatePost(
+      userId,
+      postId,
+      updatePostDto,
+      file,
+    );
   }
 }

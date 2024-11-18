@@ -4,6 +4,7 @@ import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { Post } from '../entities';
 import { UserRepository } from 'src/user/repositories';
+import { UpdatePostDto } from '../dto/update-post.dto';
 
 @Injectable()
 export class PostRepository extends Repository<Post> {
@@ -61,5 +62,33 @@ export class PostRepository extends Repository<Post> {
       take: limit,
     });
     return posts;
+  }
+
+  async updatePostById(
+    postId: string,
+    updatePostDto: UpdatePostDto,
+    imgURL: string,
+    thumbnailURL: string,
+  ) {
+    const post = await this.findOneBy({ id: postId });
+    if (!post) {
+      throw new BadRequestException();
+    }
+    if (post.title) {
+      post.title = updatePostDto.title;
+    }
+    if (post.content) {
+      post.content = updatePostDto.content;
+    }
+    if (post.category) {
+      post.category = updatePostDto.category;
+    }
+
+    if (imgURL) {
+      post.image = imgURL;
+      post.thumbnail = thumbnailURL;
+    }
+    const updatedPost = this.save(post);
+    return updatedPost;
   }
 }

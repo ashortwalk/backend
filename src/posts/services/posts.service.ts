@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { PostRepository } from '../repositories/posts.repository';
 import { AzureBlobService } from './azure-blob.service';
 import { ResizeImagePipe } from './resize.service';
+import { UpdatePostDto } from '../dto/update-post.dto';
 
 @Injectable()
 export class PostService {
@@ -41,5 +42,37 @@ export class PostService {
   async findPosts(page: number) {
     const posts = await this.postRepository.findPosts(page);
     return posts;
+  }
+
+  async updatePost(
+    userId: string,
+    postId: string,
+    updatePostDto: UpdatePostDto,
+    file: Express.Multer.File,
+  ) {
+    const post = await this.postRepository.findPostById(postId);
+    if (post.userId !== userId) {
+      throw new BadRequestException();
+    }
+
+    let imgURL;
+    let thumbnailURL;
+    if (file) {
+      imgURL = await this.azureBlobService.upload(file, 'images');
+      const thumbnail = await this.resizeImagePipe.transform(file);
+      thumbnailURL = await this.azureBlobService.upload(
+        thumbnail,
+        'thumbnails',
+      );
+      await this.azureBlobService.deleteFile(post.image, 'images');
+      await this.azureBlobService.deleteFile(post.thumbnail, 'thumbnails');
+    }
+
+    await this.postRepository.updatePostById(
+      postId,
+      updatePostDto,
+      imgURL,
+      thumbnailURL,
+    );
   }
 }

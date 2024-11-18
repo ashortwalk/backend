@@ -36,7 +36,7 @@ export class UserRepository extends Repository<User> {
     nickname: string,
     password: string,
     type: UserType,
-  ): Promise<User> {
+  ) {
     const user = new User();
     user.email = email;
     user.nickname = nickname;
@@ -45,9 +45,15 @@ export class UserRepository extends Repository<User> {
     return await this.save(user);
   }
 
-  async updateUser(id: string, nickname: string): Promise<User> {
+  async updateUser(id: string, nickname: string) {
     const user = await this.findOneBy({ id });
+
+    if (!user) {
+      throw new BadRequestException();
+    }
     user.nickname = nickname;
-    return await this.save(user);
+    const updatedUser = await this.save(user);
+    delete updatedUser.password;
+    return updatedUser;
   }
 }

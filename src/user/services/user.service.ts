@@ -144,7 +144,7 @@ export class UserService {
     return token;
   }
 
-  async updateUser(id: string, nickname: string): Promise<User> {
+  async updateUser(id: string, nickname: string) {
     return await this.userRepository.updateUser(id, nickname);
   }
 }

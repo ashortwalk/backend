@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -80,5 +81,11 @@ export class PostsController {
       updatePostDto,
       file,
     );
+  }
+
+  @Delete(':postId')
+  async deletePost(@Param() param) {
+    const id = param.postId;
+    return await this.postService.deletePost(id);
   }
 }

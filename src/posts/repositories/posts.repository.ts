@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { EntityManager, Repository } from 'typeorm';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from '../dto/create-post.dto';
@@ -53,6 +57,7 @@ export class PostRepository extends Repository<Post> {
     const limit = 10;
     const posts = await this.find({
       select: {
+        id: true,
         title: true,
         thumbnail: true,
         createdAt: true,
@@ -90,5 +95,14 @@ export class PostRepository extends Repository<Post> {
     }
     const updatedPost = this.save(post);
     return updatedPost;
+  }
+
+  async deletePostById(postId: string) {
+    await this.delete({ id: postId });
+    const post = await this.findOneBy({ id: postId });
+    if (post) {
+      throw new InternalServerErrorException();
+    }
+    return true;
   }
 }

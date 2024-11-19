@@ -26,6 +26,12 @@ export class UserService {
     private readonly redisModule: RedisModule,
   ) {}
 
+  async findUser(id: string) {
+    const user = await this.userRepository.findUserById(id);
+    delete user.password;
+    return user;
+  }
+
   async findByKakaoPassword(password: string) {
     return this.userRepository.findByKakaoPassword(password);
   }

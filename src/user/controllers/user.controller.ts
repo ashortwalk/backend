@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Get,
   Param,
   Patch,
   Req,
@@ -27,5 +28,15 @@ export class UserController {
       throw new BadRequestException();
     }
     return await this.userService.updateUser(id, updateUserDto.nickname);
+  }
+
+  @Get(':id')
+  @UseGuards(AuthGuard())
+  async getUser(@Req() req, @Param('id') id: string) {
+    const loginId = req.user.id;
+    if (id !== loginId) {
+      throw new BadRequestException();
+    }
+    return await this.userService.findUser(id);
   }
 }

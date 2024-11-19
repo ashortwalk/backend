@@ -75,4 +75,8 @@ export class PostService {
       thumbnailURL,
     );
   }
+
+  async deletePost(id: string) {
+    return await this.postRepository.deletePostById(id);
+  }
 }

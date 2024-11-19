@@ -20,6 +20,6 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 30, default: 'local' })
   type: UserType;
 
-  @OneToMany(() => Post, post => post.user)
+  @OneToMany(() => Post, post => post.user, { cascade: true })
   post: Post[];
 }

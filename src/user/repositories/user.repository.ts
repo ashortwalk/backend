@@ -56,4 +56,13 @@ export class UserRepository extends Repository<User> {
     delete updatedUser.password;
     return updatedUser;
   }
+
+  async deleteUser(id: string) {
+    const user = await this.softRemove({ id });
+
+    if (!user) {
+      throw new BadRequestException();
+    }
+    return true;
+  }
 }

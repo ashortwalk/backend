@@ -153,4 +153,8 @@ export class UserService {
   async updateUser(id: string, nickname: string) {
     return await this.userRepository.updateUser(id, nickname);
   }
+
+  async deleteUser(id: string) {
+    return await this.userRepository.deleteUser(id);
+  }
 }

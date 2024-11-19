@@ -98,7 +98,7 @@ export class PostRepository extends Repository<Post> {
   }
 
   async deletePostById(postId: string) {
-    await this.delete({ id: postId });
+    await this.softRemove({ id: postId });
     const post = await this.findOneBy({ id: postId });
     if (post) {
       throw new InternalServerErrorException();

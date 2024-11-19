@@ -28,6 +28,9 @@ export class Post extends BaseEntity {
   @Column({ type: 'varchar' })
   nickname: string;
 
-  @ManyToOne(() => User, user => user.post, { nullable: false })
+  @ManyToOne(() => User, user => user.post, {
+    nullable: false,
+    onDelete: 'CASCADE',
+  })
   user: User;
 }

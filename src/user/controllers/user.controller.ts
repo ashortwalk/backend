@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -28,6 +29,16 @@ export class UserController {
       throw new BadRequestException();
     }
     return await this.userService.updateUser(id, updateUserDto.nickname);
+  }
+
+  @Delete(':id')
+  @UseGuards(AuthGuard())
+  async deleteUser(@Req() req, @Param('id') id: string) {
+    const loginId = req.user.id;
+    if (id !== loginId) {
+      throw new BadRequestException();
+    }
+    return await this.userService.deleteUser(id);
   }
 
   @Get(':id')

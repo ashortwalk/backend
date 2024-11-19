@@ -38,8 +38,12 @@ export class PostRepository extends Repository<Post> {
     post.title = createPostDto.title;
     post.content = createPostDto.content;
     post.category = createPostDto.category;
-    post.image = imgURL;
-    post.thumbnail = thumbnailURL;
+
+    if (imgURL) {
+      post.image = imgURL;
+      post.thumbnail = thumbnailURL;
+    }
+
     const result = await this.save(post);
     delete result.user.password;
     return result;

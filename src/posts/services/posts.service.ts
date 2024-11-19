@@ -19,12 +19,18 @@ export class PostService {
     file: Express.Multer.File,
     createPostDto: CreatePostDto,
   ) {
-    const imgURL = await this.azureBlobService.upload(file, 'images');
-    const thumbnail = await this.resizeImagePipe.transform(file);
-    const thumbnailURL = await this.azureBlobService.upload(
-      thumbnail,
-      'thumbnails',
-    );
+    let imgURL = null;
+    let thumbnail = null;
+    let thumbnailURL = null;
+    if (file) {
+      imgURL = await this.azureBlobService.upload(file, 'images');
+      thumbnail = await this.resizeImagePipe.transform(file);
+      thumbnailURL = await this.azureBlobService.upload(
+        thumbnail,
+        'thumbnails',
+      );
+    }
+
     return this.postRepository.createPost(
       userId,
       nickname,

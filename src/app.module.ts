@@ -7,6 +7,7 @@ import { RedisModule } from './common/redis';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
+import { KeyController } from './key/key.controller';
 
 dotenv.config();
 
@@ -32,7 +33,7 @@ dotenv.config();
     AuthModule,
     PostsModule,
   ],
-  controllers: [],
+  controllers: [KeyController],
   providers: [JwtStrategy, RedisModule],
 })
 export class AppModule {}

@@ -109,4 +109,15 @@ export class PostRepository extends Repository<Post> {
     }
     return true;
   }
+
+  async statisticsByCategory(userId: string) {
+    return await this.createQueryBuilder('post')
+      .select('post.category', 'category')
+      .addSelect('COUNT(post.id)', 'count')
+      .where('post.user.id = :userId', { userId })
+      .groupBy('post.category')
+      .orderBy('count', 'DESC')
+      .limit(5)
+      .getRawMany();
+  }
 }

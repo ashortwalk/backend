@@ -85,4 +85,7 @@ export class PostService {
   async deletePost(id: string) {
     return await this.postRepository.deletePostById(id);
   }
+  async statisticsByCateogry(userId: string) {
+    return await this.postRepository.statisticsByCategory(userId);
+  }
 }

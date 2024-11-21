@@ -10,6 +10,7 @@ import { AzureBlobService } from './services/azure-blob.service';
 import { PostRepository } from './repositories/posts.repository';
 import { AuthModule } from 'src/user/user.module';
 import { ResizeImagePipe } from './services/resize.service';
+import { StatisticsController } from './controllers/statistics.controller';
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ dotenv.config();
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  controllers: [PostsController],
+  controllers: [PostsController, StatisticsController],
   providers: [PostService, PostRepository, AzureBlobService, ResizeImagePipe],
   exports: [],
 })

@@ -98,11 +98,11 @@ export class UserService {
     );
 
     const accessToken = await this.createAccessToken(
-      { id: result.id, role: result.role },
+      { id: result.id, role: result.role, nickname: result.nickname },
       result,
     );
     const refreshToken = await this.createRefreshToken(
-      { id: result.id, role: result.role },
+      { id: result.id, role: result.role, nickname: result.nickname },
       result,
     );
     return { accessToken, refreshToken };
@@ -121,7 +121,7 @@ export class UserService {
   }
 
   async createAccessToken(
-    payload: { id: string; role: string },
+    payload: { id: string; role: string; nickname: string },
     user: User,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
@@ -136,7 +136,7 @@ export class UserService {
   }
 
   async createRefreshToken(
-    payload: { id: string; role: string },
+    payload: { id: string; role: string; nickname: string },
     user: User,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;

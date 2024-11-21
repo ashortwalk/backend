@@ -58,7 +58,7 @@ export class PostRepository extends Repository<Post> {
   }
 
   async findPosts(page: number) {
-    const limit = 10;
+    const limit = 6;
     const posts = await this.find({
       select: {
         id: true,

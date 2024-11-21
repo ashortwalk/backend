@@ -23,6 +23,10 @@ import { UpdatePostDto } from '../dto/update-post.dto';
 @Controller('api/posts')
 export class PostsController {
   constructor(private readonly postService: PostService) {}
+  @Get('count')
+  async countTotalPages() {
+    return { count: await this.postService.countTotalPages() };
+  }
 
   @Post()
   @UseGuards(AuthGuard())

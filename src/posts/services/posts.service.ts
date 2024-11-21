@@ -88,4 +88,8 @@ export class PostService {
   async statisticsByCateogry(userId: string) {
     return await this.postRepository.statisticsByCategory(userId);
   }
+
+  async countTotalPages() {
+    return Math.ceil((await this.postRepository.countTotalPosts()) / 6);
+  }
 }

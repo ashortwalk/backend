@@ -120,4 +120,7 @@ export class PostRepository extends Repository<Post> {
       .limit(5)
       .getRawMany();
   }
+  async countTotalPosts() {
+    return await this.count();
+  }
 }

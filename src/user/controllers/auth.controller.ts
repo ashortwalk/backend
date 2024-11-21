@@ -19,6 +19,12 @@ export class AuthController {
     private readonly userService: UserService,
   ) {}
 
+  @Get('check')
+  @UseGuards()
+  async loginChecker() {
+    return true;
+  }
+
   @Get('login/kakao')
   @UseGuards(AuthGuard('kakao'))
   async kakaoCallback(@Req() req, @Res() res) {

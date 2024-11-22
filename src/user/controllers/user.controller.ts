@@ -41,13 +41,10 @@ export class UserController {
     return await this.userService.deleteUser(id);
   }
 
-  @Get(':id')
+  @Get()
   @UseGuards(AuthGuard())
-  async getUser(@Req() req, @Param('id') id: string) {
-    const loginId = req.user.id;
-    if (id !== loginId) {
-      throw new BadRequestException();
-    }
+  async getUser(@Req() req) {
+    const id = req.user.id;
     return await this.userService.findUser(id);
   }
 }

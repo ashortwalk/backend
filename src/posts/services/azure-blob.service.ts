@@ -44,9 +44,9 @@ export class AzureBlobService {
     return blobDownloaded.readableStreamBody;
   }
 
-  async deleteFile(filename: string, containerName: string) {
+  deleteFile(filename: string, containerName: string) {
     this.containerName = containerName;
     const blobClient = this.getBlobClient(filename);
-    await blobClient.deleteIfExists();
+    return blobClient.deleteIfExists();
   }
 }

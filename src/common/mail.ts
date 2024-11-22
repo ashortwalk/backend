@@ -1,7 +1,15 @@
 import * as nodemailer from 'nodemailer';
 
-export class Mail {
-  async sendGmail(param): Promise<boolean> {
+export class Gmail {
+  toEmail: string;
+  subject: string;
+  text: string;
+  constructor(toEmail: string, subject: string, text: string) {
+    this.toEmail = toEmail;
+    this.subject = subject;
+    this.text = text;
+  }
+  async send(): Promise<boolean> {
     const transporter = nodemailer.createTransport({
       service: 'gmail', // 메일 보내는 곳
       port: 587,
@@ -16,9 +24,9 @@ export class Mail {
     // 메일 옵션
     const mailOptions = {
       from: process.env.NODEMAILER_EMAIL, // 보내는 메일의 주소
-      to: param.toEmail, // 수신할 이메일
-      subject: param.subject, // 메일 제목
-      text: param.text, // 메일 내용
+      to: this.toEmail, // 수신할 이메일
+      subject: this.subject, // 메일 제목
+      text: this.text, // 메일 내용
     };
 
     try {

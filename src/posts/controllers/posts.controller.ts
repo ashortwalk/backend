@@ -14,26 +14,25 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { Roles } from 'src/user/guard/auth.guard';
 import { CreatePostDto } from '../dto/create-post.dto';
 import { PostService } from '../services/posts.service';
 import { AuthGuard } from '@nestjs/passport';
 import { UpdatePostDto } from '../dto/update-post.dto';
-
+import { TokenPayload } from 'src/user/types/user.type';
+import { PostEntity } from '../entities';
 @Controller('api/posts')
 export class PostsController {
   constructor(private readonly postService: PostService) {}
   @Get('count')
-  async countTotalPages() {
-    return { count: await this.postService.countTotalPages() };
+  countTotalPages() {
+    return { count: this.postService.countTotalPages() };
   }
 
   @Post()
   @UseGuards(AuthGuard())
-  @Roles('user')
   @UseInterceptors(FileInterceptor('file'))
   async createPost(
-    @Req() req,
+    @Req() req: { user: TokenPayload },
     @UploadedFile() file: Express.Multer.File,
     @Body() createPostDto: CreatePostDto,
   ) {
@@ -48,29 +47,29 @@ export class PostsController {
   }
 
   @Get(':postId')
-  async getPost(@Param() param) {
+  getPost(@Param() param: { postId: string }): Promise<PostEntity> {
     const { postId } = param;
     if (!postId) {
       throw new BadRequestException();
     }
-    return await this.postService.findPost(postId);
+    return this.postService.findPost(postId);
   }
 
   @Get()
-  async getPosts(@Query() query) {
+  getPosts(@Query() query: { page: number }) {
     let { page } = query;
     if (!page) {
       page = 1;
     }
-    return await this.postService.findPosts(page);
+    return this.postService.findPosts(page);
   }
 
   @Patch(':postId')
   @UseGuards(AuthGuard())
   @UseInterceptors(FileInterceptor('file'))
   async updatePost(
-    @Req() req,
-    @Param() param,
+    @Req() req: { user: TokenPayload },
+    @Param() param: { postId: string },
     @Body() updatePostDto: UpdatePostDto,
     @UploadedFile() file: Express.Multer.File,
   ) {
@@ -88,8 +87,8 @@ export class PostsController {
   }
 
   @Delete(':postId')
-  async deletePost(@Param() param) {
+  deletePost(@Param() param: { postId: string }) {
     const id = param.postId;
-    return await this.postService.deletePost(id);
+    return this.postService.deletePost(id);
   }
 }

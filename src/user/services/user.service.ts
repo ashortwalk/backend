@@ -8,13 +8,13 @@ import {
   RefreshTokenRepository,
   UserRepository,
 } from '../repositories';
-import { UserType } from '../types';
+import { UserType } from '../types/user.type';
 import * as argon2 from 'argon2';
-import { Mail } from 'src/common';
+import { Gmail } from 'src/common';
 import { RedisModule } from 'src/common/redis';
-import { User } from '../entities';
+import { UserEntity } from '../entities';
 import { JwtService } from '@nestjs/jwt';
-
+import { TokenPayload } from '../types/user.type';
 @Injectable()
 export class UserService {
   constructor(
@@ -22,7 +22,6 @@ export class UserService {
     private readonly accessTokenRepository: AccessTokenRepository,
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
-    private readonly mail: Mail,
     private readonly redisModule: RedisModule,
   ) {}
 
@@ -39,18 +38,13 @@ export class UserService {
   async sendEmail(email: string) {
     const verifyNumber =
       Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
-
-    const param = {
-      toEmail: email, // 수신할 이메일
-
-      subject: '[짧은 산책] 인증번호를 확인하세요!', // 메일 제목
-
-      text: `
+    const subject = '[짧은 산책] 인증번호를 확인하세요!';
+    const text = `
               짧은 산책 에 찾아 주셔서 감사합니다!
               회원 가입을 위해 이 숫자를 입력해 주세요. 
-              [ ${verifyNumber} ]`, // 메일 내용
-    };
-    const isEmail = await this.mail.sendGmail(param);
+              [ ${verifyNumber} ]`;
+    const gmail = new Gmail(email, subject, text);
+    const isEmail = await gmail.send();
     if (isEmail) {
       await this.redisModule.setValue(
         `verifyNumber_${email}`,
@@ -121,8 +115,8 @@ export class UserService {
   }
 
   async createAccessToken(
-    payload: { id: string; role: string; nickname: string },
-    user: User,
+    payload: TokenPayload,
+    user: UserEntity,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });
@@ -136,8 +130,8 @@ export class UserService {
   }
 
   async createRefreshToken(
-    payload: { id: string; role: string; nickname: string },
-    user: User,
+    payload: TokenPayload,
+    user: UserEntity,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });

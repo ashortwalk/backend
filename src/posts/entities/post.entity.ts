@@ -1,9 +1,9 @@
 import { BaseEntity } from 'src/common/enitty';
-import { User } from 'src/user/entities';
+import { UserEntity } from 'src/user/entities';
 import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
-export class Post extends BaseEntity {
+export class PostEntity extends BaseEntity {
   @Column({ type: 'varchar' })
   title: string;
 
@@ -28,9 +28,9 @@ export class Post extends BaseEntity {
   @Column({ type: 'varchar' })
   nickname: string;
 
-  @ManyToOne(() => User, user => user.post, {
+  @ManyToOne(() => UserEntity, user => user.post, {
     nullable: false,
     onDelete: 'CASCADE',
   })
-  user: User;
+  user: UserEntity;
 }

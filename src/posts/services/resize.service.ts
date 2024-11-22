@@ -5,17 +5,16 @@ const MAX_LENGTH = 300;
 
 @Injectable()
 export class ResizeImagePipe implements PipeTransform {
-  async transform(value) {
+  transform(value: Express.Multer.File): Promise<Express.Multer.File> {
     const filetype = value.mimetype.split('/');
-    if (filetype[0] === 'image') {
-      value = await this.resizeImage(value);
-    } else {
+    if (filetype[0] !== 'image') {
       throw new BadRequestException();
     }
-    return value;
+
+    return this.resizeImage(value);
   }
 
-  async resizeImage(value: Express.Multer.File) {
+  async resizeImage(value: Express.Multer.File): Promise<Express.Multer.File> {
     let width: number;
     let height: number;
 
@@ -35,6 +34,7 @@ export class ResizeImagePipe implements PipeTransform {
 
     const buffer = await sharp(value.buffer)
       .resize({ ...resizeOption })
+      .webp({ lossless: true })
       .toBuffer();
 
     value.buffer = buffer;

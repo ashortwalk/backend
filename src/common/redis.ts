@@ -1,8 +1,13 @@
 import { createClient } from 'redis';
 import { Injectable } from '@nestjs/common';
+import { RedisClientType } from '@redis/client';
 @Injectable()
 export class RedisModule {
-  private readonly redisClient;
+  private readonly redisClient: RedisClientType<
+    Record<string, never>,
+    Record<string, never>,
+    Record<string, never>
+  >;
 
   constructor() {
     this.redisClient = createClient({

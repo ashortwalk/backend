@@ -1,21 +1,21 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { User } from '../entities';
+import { UserEntity } from '../entities';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, Repository } from 'typeorm';
-import { UserType } from '../types';
+import { UserType } from '../types/user.type';
 
 @Injectable()
-export class UserRepository extends Repository<User> {
+export class UserRepository extends Repository<UserEntity> {
   constructor(
-    @InjectRepository(User)
-    private readonly repo: Repository<User>,
+    @InjectRepository(UserEntity)
+    private readonly repo: Repository<UserEntity>,
     @InjectEntityManager()
     private readonly entityManager: EntityManager,
   ) {
     super(repo.target, repo.manager, repo.queryRunner);
   }
 
-  async findUserById(id: string): Promise<User> {
+  async findUserById(id: string): Promise<UserEntity> {
     const user = await this.findOneBy({ id });
     if (!user) {
       throw new BadRequestException();
@@ -23,11 +23,11 @@ export class UserRepository extends Repository<User> {
     return user;
   }
 
-  async findByEmail(email: string): Promise<User> {
+  async findByEmail(email: string): Promise<UserEntity> {
     return await this.findOneBy({ email });
   }
 
-  async findByKakaoPassword(password: string): Promise<User> {
+  async findByKakaoPassword(password: string): Promise<UserEntity> {
     return await this.findOne({ where: { password, type: 'kakao' } });
   }
 
@@ -37,7 +37,7 @@ export class UserRepository extends Repository<User> {
     password: string,
     type: UserType,
   ) {
-    const user = new User();
+    const user = new UserEntity();
     user.email = email;
     user.nickname = nickname;
     user.password = password;

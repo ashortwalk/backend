@@ -3,7 +3,7 @@ import { PostsController } from './controllers';
 import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { PassportModule } from '@nestjs/passport';
-import { Post } from './entities';
+import { PostEntity } from './entities';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostService } from './services/posts.service';
 import { AzureBlobService } from './services/azure-blob.service';
@@ -16,7 +16,7 @@ dotenv.config();
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Post]),
+    TypeOrmModule.forFeature([PostEntity]),
     AuthModule,
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     PassportModule.register({ defaultStrategy: 'jwt' }),

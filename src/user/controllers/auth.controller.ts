@@ -21,7 +21,7 @@ export class AuthController {
 
   @Get('check')
   @UseGuards()
-  async loginChecker() {
+  loginChecker(): boolean {
     return true;
   }
 

@@ -1,13 +1,3 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { PostDto } from './post.dto';
 
-export class UpdatePostDto {
-  @IsString()
-  @IsNotEmpty()
-  readonly title: string;
-
-  @IsString()
-  readonly content: string;
-
-  @IsString()
-  readonly category: string;
-}
+export class UpdatePostDto extends PostDto {}

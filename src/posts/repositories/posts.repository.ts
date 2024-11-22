@@ -6,15 +6,15 @@ import {
 import { EntityManager, Repository } from 'typeorm';
 import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from '../dto/create-post.dto';
-import { Post } from '../entities';
+import { PostEntity } from '../entities';
 import { UserRepository } from 'src/user/repositories';
 import { UpdatePostDto } from '../dto/update-post.dto';
 
 @Injectable()
-export class PostRepository extends Repository<Post> {
+export class PostRepository extends Repository<PostEntity> {
   constructor(
-    @InjectRepository(Post)
-    private readonly repo: Repository<Post>,
+    @InjectRepository(PostEntity)
+    private readonly repo: Repository<PostEntity>,
     @InjectEntityManager()
     private readonly entityManager: EntityManager,
     private readonly userRepository: UserRepository,
@@ -31,7 +31,7 @@ export class PostRepository extends Repository<Post> {
   ) {
     const user = await this.userRepository.findUserById(userId);
 
-    const post = new Post();
+    const post = new PostEntity();
     post.user = user;
     post.userId = userId;
     post.nickname = nickname;
@@ -54,6 +54,8 @@ export class PostRepository extends Repository<Post> {
     if (!post) {
       throw new BadRequestException();
     }
+    post.viewCount = post.viewCount + BigInt(1);
+    this.save(post);
     return post;
   }
 

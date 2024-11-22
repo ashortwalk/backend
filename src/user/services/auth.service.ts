@@ -1,11 +1,11 @@
 import { BadRequestException, Injectable, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { User } from '../entities';
+import { UserEntity } from '../entities';
 import { AccessTokenRepository, UserRepository } from '../repositories';
 import { RefreshTokenRepository } from '../repositories';
 import { UserService } from './user.service';
 import { LoginDto } from '../dto/login.dto';
-
+import { TokenPayload } from '../types/user.type';
 @Injectable()
 export class AuthService {
   constructor(
@@ -42,8 +42,8 @@ export class AuthService {
   }
 
   async createAccessToken(
-    payload: { id: string; role: string; nickname: string },
-    user: User,
+    payload: TokenPayload,
+    user: UserEntity,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });
@@ -57,8 +57,8 @@ export class AuthService {
   }
 
   async createRefreshToken(
-    payload: { id: string; role: string; nickname: string },
-    user: User,
+    payload: TokenPayload,
+    user: UserEntity,
   ): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });

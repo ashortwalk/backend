@@ -1,11 +1,12 @@
 import { BaseEntity } from 'src/common/enitty';
 import { Column, Entity, OneToMany, Unique } from 'typeorm';
-import { UserRole, UserType } from '../types';
-import { Post } from 'src/posts/entities/post.entity';
+import { UserRole, UserType } from '../types/user.type';
+import { PostEntity } from 'src/posts/entities/post.entity';
+import { CommentEntity } from 'src/comments/entities';
 
 @Entity()
 @Unique(['email', 'nickname'])
-export class User extends BaseEntity {
+export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar' })
   nickname: string;
 
@@ -21,6 +22,9 @@ export class User extends BaseEntity {
   @Column({ type: 'varchar', length: 30, default: 'local' })
   type: UserType;
 
-  @OneToMany(() => Post, post => post.user, { cascade: true })
-  post: Post[];
+  @OneToMany(() => PostEntity, post => post.user, { cascade: true })
+  post: PostEntity[];
+
+  @OneToMany(() => CommentEntity, comment => comment.user, { cascade: true })
+  comment: CommentEntity[];
 }

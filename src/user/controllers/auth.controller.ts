@@ -56,7 +56,7 @@ export class AuthController {
       email,
       nickname,
       password,
-      'local',
+      'email',
     );
   }
 

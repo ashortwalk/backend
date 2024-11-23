@@ -75,7 +75,7 @@ export class UserService {
     password: string,
     type: UserType,
   ) {
-    if (type == 'local') {
+    if (type == 'email') {
       if ((await this.redisModule.getValue(`isverified_${email}`)) == 'true') {
         await this.redisModule.deleteValue(`isverified_${email}`);
       } else {

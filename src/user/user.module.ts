@@ -8,7 +8,7 @@ import {
   UserRepository,
 } from './repositories';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserEntity } from './entities';
+import { ReportEntity, UserEntity } from './entities';
 import { Gmail } from 'src/common';
 import { RedisModule } from 'src/common/redis';
 import { JwtModule } from '@nestjs/jwt';
@@ -20,7 +20,7 @@ dotenv.config();
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([UserEntity]),
+    TypeOrmModule.forFeature([UserEntity, ReportEntity]),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],

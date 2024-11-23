@@ -27,7 +27,23 @@ export class AuthService {
     const role = req.user.role;
     const nickname = req.user.nickname;
     if (existingUser) {
-      throw new ConflictException();
+      const accessToken = await this.createAccessToken(
+        {
+          id: existingUser.id,
+          role: existingUser.role,
+          nickname: existingUser.nickname,
+        },
+        existingUser,
+      );
+      const refreshToken = await this.createRefreshToken(
+        {
+          id: existingUser.id,
+          role: existingUser.role,
+          nickname: existingUser.nickname,
+        },
+        existingUser,
+      );
+      return { accessToken, refreshToken };
     }
     const user = await this.userService.createUser(
       null,

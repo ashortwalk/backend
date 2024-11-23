@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  ConflictException,
-  Injectable,
-  Req,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, Req } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../entities';
 import { AccessTokenRepository, UserRepository } from '../repositories';

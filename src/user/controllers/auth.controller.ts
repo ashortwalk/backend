@@ -20,7 +20,7 @@ export class AuthController {
   ) {}
 
   @Get('check')
-  @UseGuards()
+  @UseGuards(AuthGuard())
   loginChecker(): boolean {
     return true;
   }

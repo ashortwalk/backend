@@ -27,6 +27,26 @@ export class CommentsRepository extends Repository<CommentEntity> {
     comment.nickname = user.nickname;
     comment.content = content;
     comment.userId = userId;
+    comment.postId = post.id;
+
+    return await this.save(comment);
+  }
+  async findComments(postId: string) {
+    return await this.findBy({ postId });
+  }
+
+  async findCommentById(postId: string, commentId: string) {
+    return await this.findOneBy({ id: commentId, postId });
+  }
+
+  async updateComment(
+    postId: string,
+    commentId: string,
+    userId: string,
+    content: string,
+  ) {
+    const comment = await this.findOneBy({ id: commentId, postId });
+    comment.content = content;
 
     return await this.save(comment);
   }

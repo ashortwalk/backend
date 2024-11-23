@@ -12,6 +12,9 @@ export class CommentEntity extends BaseEntity {
   userId: string;
 
   @Column({ type: 'varchar' })
+  postId: string;
+
+  @Column({ type: 'varchar' })
   nickname: string;
 
   @ManyToOne(() => UserEntity, user => user.comment, {

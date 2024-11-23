@@ -1,11 +1,10 @@
 import { BaseEntity } from 'src/common/enitty';
-import { Column, Entity, OneToMany, Unique } from 'typeorm';
+import { Column, Entity, OneToMany } from 'typeorm';
 import { UserRole, UserType } from '../types/user.type';
 import { PostEntity } from 'src/posts/entities/post.entity';
 import { CommentEntity } from 'src/comments/entities';
 
-@Entity()
-@Unique(['email', 'nickname'])
+@Entity('Users')
 export class UserEntity extends BaseEntity {
   @Column({ type: 'varchar' })
   nickname: string;

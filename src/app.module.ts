@@ -8,6 +8,7 @@ import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { KeyController } from './key/key.controller';
+import { CommentModule } from './comments/comments.module';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ dotenv.config();
 
     AuthModule,
     PostsModule,
+    CommentModule,
   ],
   controllers: [KeyController],
   providers: [JwtStrategy, RedisModule],

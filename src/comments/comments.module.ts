@@ -7,13 +7,16 @@ import { CommentsService } from './services';
 import { CommentsRepository } from './repositories';
 import { CommentsController } from './controllers';
 import { AuthModule } from 'src/user/user.module';
+import { PostsModule } from 'src/posts/post.module';
+import { CommentEntity } from './entities';
 
 dotenv.config();
 
 @Module({
   imports: [
+    PostsModule,
     AuthModule,
-    TypeOrmModule.forFeature([Comment]),
+    TypeOrmModule.forFeature([CommentEntity]),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],

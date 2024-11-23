@@ -54,7 +54,7 @@ export class PostRepository extends Repository<PostEntity> {
     if (!post) {
       throw new BadRequestException();
     }
-    post.viewCount = post.viewCount + BigInt(1);
+    post.viewCount = post.viewCount + 1;
     this.save(post);
     return post;
   }

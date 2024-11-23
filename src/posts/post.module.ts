@@ -23,6 +23,6 @@ dotenv.config();
   ],
   controllers: [PostsController, StatisticsController],
   providers: [PostService, PostRepository, AzureBlobService, ResizeImagePipe],
-  exports: [],
+  exports: [PostRepository],
 })
 export class PostsModule {}

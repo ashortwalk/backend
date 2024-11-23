@@ -36,6 +36,10 @@ export class UserService {
   }
 
   async sendEmail(email: string) {
+    const isEmailExist = await this.userRepository.findByEmail(email);
+    if (isEmailExist) {
+      throw new ConflictException();
+    }
     const verifyNumber =
       Math.floor(Math.random() * (999999 - 111111 + 1)) + 111111;
     const subject = '[짧은 산책] 인증번호를 확인하세요!';
@@ -77,8 +81,9 @@ export class UserService {
       } else {
         throw new BadRequestException();
       }
-      const user = await this.userRepository.findByEmail(email);
-      if (user) {
+      const isNicknameExist =
+        await this.userRepository.findUserByNickname(nickname);
+      if (isNicknameExist) {
         throw new ConflictException();
       }
       password = await this.hashPassword(password);

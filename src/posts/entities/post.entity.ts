@@ -1,8 +1,9 @@
+import { CommentEntity } from 'src/comments/entities';
 import { BaseEntity } from 'src/common/enitty';
 import { UserEntity } from 'src/user/entities';
-import { Column, Entity, ManyToOne } from 'typeorm';
+import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
-@Entity()
+@Entity('Posts')
 export class PostEntity extends BaseEntity {
   @Column({ type: 'varchar' })
   title: string;
@@ -19,8 +20,8 @@ export class PostEntity extends BaseEntity {
   @Column({ type: 'varchar', nullable: true })
   category: string;
 
-  @Column({ type: 'bigint', default: 0 })
-  viewCount: bigint;
+  @Column({ type: 'integer', default: 0 })
+  viewCount: number;
 
   @Column({ type: 'varchar' })
   userId: string;
@@ -32,5 +33,8 @@ export class PostEntity extends BaseEntity {
     nullable: false,
     onDelete: 'CASCADE',
   })
+  @OneToMany(() => CommentEntity, comment => comment.post, { cascade: true })
+  comment: CommentEntity[];
+
   user: UserEntity;
 }

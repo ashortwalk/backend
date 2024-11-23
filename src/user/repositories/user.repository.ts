@@ -17,9 +17,11 @@ export class UserRepository extends Repository<UserEntity> {
 
   async findUserById(id: string): Promise<UserEntity> {
     const user = await this.findOneBy({ id });
-    if (!user) {
-      throw new BadRequestException();
-    }
+    return user;
+  }
+
+  async findUserByNickname(nickname: string): Promise<UserEntity> {
+    const user = await this.findOneBy({ nickname });
     return user;
   }
 

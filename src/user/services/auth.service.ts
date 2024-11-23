@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, Req } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  Injectable,
+  Req,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '../entities';
 import { AccessTokenRepository, UserRepository } from '../repositories';
@@ -17,28 +22,20 @@ export class AuthService {
   ) {}
 
   async kakaoLogin(@Req() req) {
-    const user = await this.userService.findByKakaoPassword(req.user.password);
-
-    if (!user) {
-      await this.userService.createUser(
-        null,
-        req.user.nickname,
-        req.user.password,
-        'kakao',
-      );
+    const password = req.user.password;
+    const existingUser = await this.userService.findByKakaoPassword(password);
+    const role = req.user.role;
+    const nickname = req.user.nickname;
+    if (existingUser) {
+      throw new ConflictException();
     }
-    const existingUser = await this.userRepository.findByKakaoPassword(
-      req.user.password,
+    const user = await this.userService.createUser(
+      null,
+      nickname,
+      password,
+      role,
     );
-    const accessToken = await this.createAccessToken(
-      { id: existingUser.id, role: user.role, nickname: user.nickname },
-      existingUser,
-    );
-    const refreshToken = await this.createRefreshToken(
-      { id: existingUser.id, role: user.role, nickname: user.nickname },
-      existingUser,
-    );
-    return { accessToken, refreshToken };
+    return user;
   }
 
   async createAccessToken(

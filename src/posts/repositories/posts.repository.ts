@@ -72,6 +72,9 @@ export class PostRepository extends Repository<PostEntity> {
       },
       skip: (page - 1) * limit,
       take: limit,
+      order: {
+        createdAt: 'DESC',
+      },
     });
     return posts;
   }

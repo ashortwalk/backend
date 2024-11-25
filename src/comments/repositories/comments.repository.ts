@@ -50,4 +50,10 @@ export class CommentsRepository extends Repository<CommentEntity> {
 
     return await this.save(comment);
   }
+
+  async deleteComment(commentId: string) {
+    this.softRemove({ id: commentId });
+
+    return true;
+  }
 }

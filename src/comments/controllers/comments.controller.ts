@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -50,5 +51,17 @@ export class CommentsController {
       userId,
       content,
     );
+  }
+
+  @Delete(':commentId')
+  @UseGuards(AuthGuard())
+  deleteComment(
+    @Req() req: { user: TokenPayload },
+    @Param() param: { postId: string; commentId: string },
+  ) {
+    const userId = req.user.id;
+    const { postId, commentId } = param;
+
+    return this.commentService.deleteComment(postId, commentId, userId);
   }
 }

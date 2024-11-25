@@ -15,12 +15,17 @@ export class MemberRepository extends Repository<MemberEntity> {
     super(repo.target, repo.manager, repo.queryRunner);
   }
 
-  async createMember(groupId: string, userId: string): Promise<MemberEntity> {
+  async createMember(
+    groupId: string,
+    userId: string,
+    nickname: string,
+  ): Promise<MemberEntity> {
     const member = new MemberEntity();
     const group = await this.groupRepository.findGroupById(groupId);
     member.groupId = groupId;
     member.userId = userId;
     member.group = group;
+    member.nickname = nickname;
     return await this.save(member);
   }
 
@@ -29,7 +34,8 @@ export class MemberRepository extends Repository<MemberEntity> {
     return members;
   }
   async deleteMember(groupId: string, userId: string): Promise<boolean> {
-    const isDeleted = await this.softRemove({ groupId, userId });
+    const member = await this.findOneBy({ groupId, userId });
+    const isDeleted = await this.softRemove({ id: member.id });
     if (!isDeleted) {
       throw new BadRequestException();
     }

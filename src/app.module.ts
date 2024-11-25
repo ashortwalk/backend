@@ -40,4 +40,4 @@ dotenv.config();
   controllers: [KeyController],
   providers: [JwtStrategy, RedisModule],
 })
-export class AppModule { }
+export class AppModule {}

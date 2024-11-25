@@ -6,8 +6,16 @@ import { MemberEntity } from '../entities';
 export class MemberService {
   constructor(private readonly memberRepository: MemberRepository) {}
 
-  createMember(groupId: string, userId: string): Promise<MemberEntity> {
-    const result = this.memberRepository.createMember(groupId, userId);
+  createMember(
+    groupId: string,
+    userId: string,
+    nickname: string,
+  ): Promise<MemberEntity> {
+    const result = this.memberRepository.createMember(
+      groupId,
+      userId,
+      nickname,
+    );
     return result;
   }
 

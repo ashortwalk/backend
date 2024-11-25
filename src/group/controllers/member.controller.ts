@@ -22,9 +22,10 @@ export class MemberController {
   @UseGuards(AuthGuard())
   async createMember(@Req() req: { user: TokenPayload }, @Param() param) {
     const userId = req.user.id;
+    const nickname = req.user.nickname;
     const { groupId } = param;
 
-    return await this.memberService.createMember(groupId, userId);
+    return await this.memberService.createMember(groupId, userId, nickname);
   }
 
   @Get()

@@ -15,6 +15,10 @@ import { JwtModule } from '@nestjs/jwt';
 import * as dotenv from 'dotenv';
 import { UserController } from './controllers/user.controller';
 import { PassportModule } from '@nestjs/passport';
+import { ReportRepository } from './repositories/reports.repository';
+import { ReportService } from './services/reports.service';
+import { ReportController } from './controllers/report.controller';
+import { HttpModule } from '@nestjs/axios';
 
 dotenv.config();
 
@@ -23,8 +27,9 @@ dotenv.config();
     TypeOrmModule.forFeature([UserEntity, ReportEntity]),
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
+    HttpModule,
   ],
-  controllers: [AuthController, UserController],
+  controllers: [AuthController, UserController, ReportController],
   providers: [
     Gmail,
     AccessTokenRepository,
@@ -34,6 +39,8 @@ dotenv.config();
     AuthService,
     RedisModule,
     UserRepository,
+    ReportService,
+    ReportRepository,
   ],
   exports: [UserRepository],
 })

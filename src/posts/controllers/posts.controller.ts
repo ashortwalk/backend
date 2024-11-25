@@ -87,8 +87,12 @@ export class PostsController {
   }
 
   @Delete(':postId')
-  deletePost(@Param() param: { postId: string }) {
+  @UseGuards(AuthGuard())
+  deletePost(@Req() req, @Param() param: { postId: string }) {
+    const userId = req.user.id;
+    const role = req.user.role;
     const id = param.postId;
-    return this.postService.deletePost(id);
+
+    return this.postService.deletePost(userId, role, id);
   }
 }

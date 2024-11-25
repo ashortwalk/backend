@@ -5,7 +5,7 @@ import { EntityManager, Repository } from 'typeorm';
 import { CreateReportDto } from '../dto/create-report.dto';
 
 @Injectable()
-export class UserRepository extends Repository<ReportEntity> {
+export class ReportRepository extends Repository<ReportEntity> {
   constructor(
     @InjectRepository(ReportEntity)
     private readonly repo: Repository<ReportEntity>,
@@ -15,11 +15,15 @@ export class UserRepository extends Repository<ReportEntity> {
     super(repo.target, repo.manager, repo.queryRunner);
   }
 
-  async createReport(createReportDto: CreateReportDto): Promise<ReportEntity> {
+  async createReport(
+    userId: string,
+    createReportDto: CreateReportDto,
+  ): Promise<ReportEntity> {
     const report = new ReportEntity();
 
     const { contentId, contentType, reportTitle, reportContent } =
       createReportDto;
+    report.userId = userId;
     report.contentId = contentId;
     report.contentType = contentType;
     report.reportTitle = reportTitle;
@@ -27,10 +31,14 @@ export class UserRepository extends Repository<ReportEntity> {
 
     return await this.save(report);
   }
+  async findReport(reportId: string) {
+    const report = await this.findOneBy({ id: reportId });
+    return report;
+  }
 
   async deleteReport(reportId: string): Promise<boolean> {
-    const report = await this.softRemove({ id: reportId });
-    if (!report) {
+    const isDeleted = await this.softRemove({ id: reportId });
+    if (!isDeleted) {
       throw new BadRequestException();
     }
     return true;

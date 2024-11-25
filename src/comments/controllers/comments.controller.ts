@@ -24,9 +24,10 @@ export class CommentsController {
     @Body() body: { content: string },
   ) {
     const userId = req.user.id;
+    const nickname = req.user.nickname;
     const { postId } = param;
     const { content } = body;
-    return this.commentService.createComment(postId, userId, content);
+    return this.commentService.createComment(postId, userId, nickname, content);
   }
 
   @Get()
@@ -60,8 +61,16 @@ export class CommentsController {
     @Param() param: { postId: string; commentId: string },
   ) {
     const userId = req.user.id;
+
+    const role = req.user.role;
     const { postId, commentId } = param;
 
-    return this.commentService.deleteComment(postId, commentId, userId);
+    return this.commentService.deleteComment(
+      postId,
+      commentId,
+      userId,
+
+      role,
+    );
   }
 }

@@ -82,7 +82,15 @@ export class PostService {
     );
   }
 
-  async deletePost(id: string) {
+  async deletePost(userId: string, role: string, id: string) {
+    const post = await this.postRepository.findPostById(id);
+
+    if (role !== 'admin') {
+      if (post.userId !== userId) {
+        throw new BadRequestException();
+      }
+    }
+
     return await this.postRepository.deletePostById(id);
   }
   async statisticsByCategory(userId: string) {

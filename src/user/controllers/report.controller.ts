@@ -6,7 +6,6 @@ import {
   Param,
   Post,
   Req,
-  Res,
   UseGuards,
 } from '@nestjs/common';
 import { CreateReportDto } from '../dto/create-report.dto';

@@ -9,6 +9,7 @@ import { CommentsController } from './controllers';
 import { AuthModule } from 'src/user/user.module';
 import { PostsModule } from 'src/posts/post.module';
 import { CommentEntity } from './entities';
+import { RedisModule } from 'src/common/redis';
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ dotenv.config();
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [CommentsController],
-  providers: [CommentsService, CommentsRepository],
+  providers: [CommentsService, CommentsRepository, RedisModule],
   exports: [],
 })
 export class CommentModule {}

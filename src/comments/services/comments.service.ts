@@ -1,12 +1,32 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { CommentsRepository } from '../repositories';
+import { RedisModule } from 'src/common/redis';
 
 @Injectable()
 export class CommentsService {
-  constructor(private readonly commentRepository: CommentsRepository) {}
+  constructor(
+    private readonly commentRepository: CommentsRepository,
+    private readonly redisModule: RedisModule,
+  ) {}
 
-  createComment(postId: string, userId: string, content: string) {
-    return this.commentRepository.createComment(postId, userId, content);
+  async createComment(
+    postId: string,
+    userId: string,
+    nickname: string,
+    content: string,
+  ) {
+    const isOnRelay = await this.redisModule.getValue(`OnRelay_${userId}`);
+    console.log(isOnRelay);
+    if (!isOnRelay) {
+      const adminId = process.env.ADMIN_USER_ID;
+      await this.redisModule.setValue(`OnRelay_${userId}`, 'true', 604800000);
+      await this.commentRepository.createComment(
+        postId,
+        adminId,
+        `👟  ${nickname} 님이 다음 산책에 당첨되셨습니다! 짧은산책 후기를 부탁드려요!`,
+      );
+    }
+    return await this.commentRepository.createComment(postId, userId, content);
   }
 
   findComments(postId: string) {

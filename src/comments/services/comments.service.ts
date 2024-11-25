@@ -35,14 +35,23 @@ export class CommentsService {
     return comment;
   }
 
-  async deleteComment(postId: string, commentId: string, userId: string) {
+  async deleteComment(
+    postId: string,
+    commentId: string,
+    userId: string,
+    role: string,
+  ) {
     const prevComment = await this.commentRepository.findCommentById(
       postId,
       commentId,
     );
-    if (prevComment.userId !== userId) {
-      throw new BadRequestException();
+
+    if (role !== 'admin') {
+      if (prevComment.userId !== userId) {
+        throw new BadRequestException();
+      }
     }
+
     const comment = await this.commentRepository.deleteComment(commentId);
     return comment;
   }

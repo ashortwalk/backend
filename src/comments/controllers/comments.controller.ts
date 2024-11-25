@@ -60,8 +60,9 @@ export class CommentsController {
     @Param() param: { postId: string; commentId: string },
   ) {
     const userId = req.user.id;
+    const role = req.user.role;
     const { postId, commentId } = param;
 
-    return this.commentService.deleteComment(postId, commentId, userId);
+    return this.commentService.deleteComment(postId, commentId, userId, role);
   }
 }

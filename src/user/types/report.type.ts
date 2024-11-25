@@ -1,1 +1,1 @@
-export type ContentType = 'posts' | 'comments' | 'chats';
+export type ContentType = 'posts' | 'comments';

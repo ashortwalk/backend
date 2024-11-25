@@ -34,4 +34,13 @@ export class GroupService {
         return await this.groupRepository.updateGroup(id, groupName, description, tag);
     }
 
+    async deleteGroup(id: string) {
+        return await this.groupRepository.deleteGroup(id);
+    }
+
+    async findGroups(page: number) {
+        const groups = await this.groupRepository.findGroups(page);
+        return groups;
+    }
+
 }

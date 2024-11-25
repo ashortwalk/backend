@@ -56,4 +56,33 @@ export class GroupRepository extends Repository<GroupEntity> {
         const updatedGroup = this.save(group);
         return updatedGroup;
     }
+
+    async deleteGroup(id: string) {
+        const group = await this.softRemove({ id });
+
+        if (!group) {
+            throw new BadRequestException();
+        }
+        return true;
+    }
+
+    async findGroups(page: number) {
+        const limit = 6;
+        const groups = await this.find({
+            select: {
+                id: true,
+                leaderUserId: true,
+                groupName: true,
+                description: true,
+                tag: true,
+            },
+            skip: (page - 1) * limit,
+            take: limit,
+            order: {
+                id: 'DESC',
+            },
+        });
+        return groups;
+    }
+
 }

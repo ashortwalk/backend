@@ -7,6 +7,7 @@ import {
     Param,
     Patch,
     Post,
+    Query,
     Req,
     UseGuards,
 } from '@nestjs/common';
@@ -62,6 +63,22 @@ export class GrpupController {
             updateGroupDto.description,
             updateGroupDto.tag,
         );
+    }
+
+    @Delete(':id')
+    @UseGuards(AuthGuard())
+    async deleteUser(@Req() req, @Param('id') id: string) {
+
+        return await this.groupService.deleteGroup(id);
+    }
+
+    @Get()
+    getGroups(@Query() query: { page: number }) {
+        let { page } = query;
+        if (!page) {
+            page = 1;
+        }
+        return this.groupService.findGroups(page);
     }
 
 }

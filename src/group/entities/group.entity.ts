@@ -1,6 +1,8 @@
-import { BaseEntity, Column, OneToMany } from "typeorm";
+import { Column, Entity, OneToMany } from "typeorm";
 import { MemberEntity } from "./member.entity";
+import { BaseEntity } from "src/common/enitty";
 
+@Entity('Groups')
 export class GroupEntity extends BaseEntity {
     @Column({ type: "varchar" })
     leaderUserId: string;

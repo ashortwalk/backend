@@ -9,6 +9,7 @@ import { JwtStrategy } from './user/strategies/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { KeyController } from './key/key.controller';
 import { CommentModule } from './comments/comments.module';
+import { GroupModule } from './group/group.module';
 
 dotenv.config();
 
@@ -34,8 +35,9 @@ dotenv.config();
     AuthModule,
     PostsModule,
     CommentModule,
+    GroupModule,
   ],
   controllers: [KeyController],
   providers: [JwtStrategy, RedisModule],
 })
-export class AppModule {}
+export class AppModule { }

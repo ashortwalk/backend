@@ -1,7 +1,6 @@
 import { IsNotEmpty, IsString } from 'class-validator';
 
-export class CreateGroupDto {
-
+export class UpdateGroupDto {
     @IsString()
     @IsNotEmpty()
     readonly groupName: string;

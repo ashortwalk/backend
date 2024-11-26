@@ -55,4 +55,8 @@ export class ReportService {
     }
     return await this.reportsRepository.deleteReport(reportId);
   }
+
+  countReports() {
+    return this.reportsRepository.countReports();
+  }
 }

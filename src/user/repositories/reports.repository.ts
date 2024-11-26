@@ -48,4 +48,8 @@ export class ReportRepository extends Repository<ReportEntity> {
     }
     return true;
   }
+
+  async countReports() {
+    return await this.count();
+  }
 }

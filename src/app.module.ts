@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { KeyController } from './key/key.controller';
 import { CommentModule } from './comments/comments.module';
 import { GroupModule } from './group/group.module';
+import { FeedModule } from './feeds/feed.module';
 
 dotenv.config();
 
@@ -36,6 +37,7 @@ dotenv.config();
     PostsModule,
     CommentModule,
     GroupModule,
+    FeedModule,
   ],
   controllers: [KeyController],
   providers: [JwtStrategy, RedisModule],

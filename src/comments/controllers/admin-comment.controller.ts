@@ -3,7 +3,7 @@ import { CommentsService } from '../services';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('api/comments')
-export class CommentsController {
+export class AdminCommentController {
   constructor(private readonly commentService: CommentsService) {}
 
   @Get(':commentId')

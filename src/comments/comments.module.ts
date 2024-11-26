@@ -10,6 +10,7 @@ import { AuthModule } from 'src/user/user.module';
 import { PostsModule } from 'src/posts/post.module';
 import { CommentEntity } from './entities';
 import { RedisModule } from 'src/common/redis';
+import { AdminCommentController } from './controllers/admin-comment.controller';
 
 dotenv.config();
 
@@ -21,7 +22,7 @@ dotenv.config();
     JwtModule.register({ secret: process.env.JWT_SECRET }),
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
-  controllers: [CommentsController],
+  controllers: [CommentsController, AdminCommentController],
   providers: [CommentsService, CommentsRepository, RedisModule],
   exports: [],
 })

@@ -27,6 +27,13 @@ export class ReportController {
     return this.reportService.findReports(page);
   }
 
+  @Get('count')
+  @UseGuards(AuthGuard())
+  @Roles('admin')
+  getReportsCount() {
+    return this.reportService.countReports();
+  }
+
   @Post()
   @UseGuards(AuthGuard())
   createReport(

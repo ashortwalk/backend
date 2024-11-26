@@ -72,7 +72,9 @@ export class GrpupController {
   @Delete(':id')
   @UseGuards(AuthGuard())
   async deleteUser(@Req() req, @Param('id') id: string) {
-    return await this.groupService.deleteGroup(id);
+    const userId = req.user.id;
+    const role = req.user.role;
+    return await this.groupService.deleteGroup(userId, role, id);
   }
 
   @Get()

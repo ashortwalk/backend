@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { GroupRepository } from '../repositories';
 
 @Injectable()
@@ -39,7 +39,14 @@ export class GroupService {
     );
   }
 
-  async deleteGroup(id: string) {
+  async deleteGroup(userId: string, role: string, id: string) {
+    const group = await this.groupRepository.findGroupById(id);
+    if (role !== 'admin') {
+      if (userId !== group.leaderUserId) {
+        throw new BadRequestException();
+      }
+    }
+
     return await this.groupRepository.deleteGroup(id);
   }
 

@@ -65,7 +65,7 @@ export class GroupRepository extends Repository<GroupEntity> {
   }
 
   async findGroups(page: number) {
-    const limit = 6;
+    const limit = 3;
     const groups = await this.find({
       select: {
         id: true,

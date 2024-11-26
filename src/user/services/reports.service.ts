@@ -17,6 +17,10 @@ export class ReportService {
     private readonly httpService: HttpService,
   ) {}
 
+  async findReports(page: number) {
+    return await this.reportsRepository.findReports(page);
+  }
+
   async createReport(
     userId: string,
     createReportDto: CreateReportDto,

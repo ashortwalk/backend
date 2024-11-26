@@ -1,10 +1,11 @@
 import {
-  BadRequestException,
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   Post,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -17,6 +18,13 @@ import { TokenPayload } from '../types/user.type';
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
+  @Get()
+  @UseGuards(AuthGuard('admin'))
+  getReports(@Query() query) {
+    const { page } = query;
+    return this.reportService.findReports(page);
+  }
+
   @Post()
   @UseGuards(AuthGuard())
   createReport(
@@ -28,13 +36,8 @@ export class ReportController {
   }
 
   @Delete(':reportId')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard('admin'))
   async deleteReport(@Req() req, @Param() param: { reportId: string }) {
-    const { role } = req.user;
-
-    if (role !== 'admin') {
-      throw new BadRequestException();
-    }
     const { reportId } = param;
     const authorization = req.headers.authorization;
     return await this.reportService.deleteReport(authorization, reportId);

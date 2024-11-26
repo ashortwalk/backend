@@ -31,8 +31,14 @@ export class CommentsRepository extends Repository<CommentEntity> {
 
     return await this.save(comment);
   }
+
   async findComments(postId: string) {
-    return await this.findBy({ postId });
+    return await this.find({
+      where: { id: postId },
+      order: {
+        createdAt: 'DESC',
+      },
+    });
   }
 
   async findCommentById(postId: string, commentId: string) {

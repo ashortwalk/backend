@@ -33,6 +33,10 @@ export class CommentsService {
     return this.commentRepository.findComments(postId);
   }
 
+  adminFindComment(commentId: string) {
+    return this.commentRepository.adminFindCommentById(commentId);
+  }
+
   async updateComment(
     postId: string,
     commentId: string,

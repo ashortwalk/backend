@@ -45,6 +45,10 @@ export class CommentsRepository extends Repository<CommentEntity> {
     return await this.findOneBy({ id: commentId, postId });
   }
 
+  async adminFindCommentById(commentId: string) {
+    return await this.findOneBy({ id: commentId });
+  }
+
   async updateComment(
     postId: string,
     commentId: string,

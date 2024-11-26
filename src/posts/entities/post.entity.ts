@@ -33,8 +33,10 @@ export class PostEntity extends BaseEntity {
     nullable: false,
     onDelete: 'CASCADE',
   })
+  user: UserEntity;
+
   @OneToMany(() => CommentEntity, comment => comment.post, { cascade: true })
   comment: CommentEntity[];
 
-  user: UserEntity;
+ 
 }

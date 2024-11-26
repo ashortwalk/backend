@@ -34,7 +34,7 @@ export class CommentsRepository extends Repository<CommentEntity> {
 
   async findComments(postId: string) {
     return await this.find({
-      where: { id: postId },
+      where: { postId },
       order: {
         createdAt: 'DESC',
       },

@@ -34,6 +34,7 @@ export class GrpupController {
     return await this.groupService.myGroups(id);
   }
 
+
   @Post()
   @UseGuards(AuthGuard())
   async createGroup(

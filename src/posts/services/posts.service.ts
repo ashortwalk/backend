@@ -98,6 +98,7 @@ export class PostService {
   }
 
   async countTotalPages() {
-    return Math.ceil((await this.postRepository.countTotalPosts()) / 6);
+    const result = Math.ceil((await this.postRepository.countTotalPosts()) / 6);
+    return result;
   }
 }

@@ -33,7 +33,12 @@ export class ReportService {
     reportId: string,
   ): Promise<boolean> {
     const report = await this.reportsRepository.findReport(reportId);
+
+    if (!report) {
+      throw new BadRequestException();
+    }
     const { contentType, contentId } = report;
+
     try {
       const response = await firstValueFrom(
         this.httpService.delete(

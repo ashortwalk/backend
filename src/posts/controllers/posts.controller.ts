@@ -24,8 +24,9 @@ import { PostEntity } from '../entities';
 export class PostsController {
   constructor(private readonly postService: PostService) {}
   @Get('count')
-  countTotalPages() {
-    return { count: this.postService.countTotalPages() };
+  async countTotalPages() {
+    const count = await this.postService.countTotalPages();
+    return { count };
   }
 
   @Post()

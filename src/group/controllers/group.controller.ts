@@ -20,7 +20,19 @@ import { UpdateGroupDto } from '../dto';
 
 @Controller('api/groups')
 export class GrpupController {
-  constructor(private readonly groupService: GroupService) {}
+  constructor(private readonly groupService: GroupService) { }
+
+  @Get('count')
+  async countTotalPages() {
+    return await this.groupService.countTotalPages();
+  }
+
+  @Get('mygroups/:id')
+  async myGroups(@Param() param: { id: string }) {
+    const { id } = param;
+
+    return await this.groupService.myGroups(id);
+  }
 
   @Post()
   @UseGuards(AuthGuard())
@@ -29,6 +41,7 @@ export class GrpupController {
     @Req() req: { user: TokenPayload },
   ) {
     const leaderUserId = req.user.id;
+    const nickname = req.user.nickname;
     const groupName = createGroupDto.groupName;
     const description = createGroupDto.description;
     const tag = createGroupDto.tag;
@@ -84,5 +97,10 @@ export class GrpupController {
       page = 1;
     }
     return this.groupService.findGroups(page);
+  }
+
+  @Delete('/name/:groupName')
+  async deleteGroupByName(@Req() req, @Param('groupName') groupName: string) {
+    return await this.groupService.deleteGroupByName(groupName);
   }
 }

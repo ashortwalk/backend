@@ -82,4 +82,30 @@ export class GroupRepository extends Repository<GroupEntity> {
     });
     return groups;
   }
+
+  async countTotalGroups() {
+    return await this.createQueryBuilder('groups')
+      .select('COUNT(groups.id)', 'count')
+      .getRawMany();
+  }
+
+  async myGroups(id: string) {
+    return await this.createQueryBuilder('groups')
+      .innerJoin('groups.member', 'members')
+      //.innerJoin('members.user', 'users')
+      .where('members.userId = :id', { id })
+      .select(['groups.groupName', 'groups.description'])
+      .getMany();
+  }
+
+  async deleteGroupByName(groupName: string) {
+    const info = await this.findOneBy({ groupName });
+    const id = info.id; //키 아닌 값으로는 softRemove 작동 안됨
+    const group = await this.softRemove({ id });
+
+    if (!group) {
+      throw new BadRequestException();
+    }
+    return true;
+  }
 }

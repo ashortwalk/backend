@@ -3,7 +3,7 @@ import { GroupRepository } from '../repositories';
 
 @Injectable()
 export class GroupService {
-  constructor(private readonly groupRepository: GroupRepository) {}
+  constructor(private readonly groupRepository: GroupRepository) { }
 
   async createGroup(
     groupName: string,
@@ -53,5 +53,19 @@ export class GroupService {
   async findGroups(page: number) {
     const groups = await this.groupRepository.findGroups(page);
     return groups;
+  }
+
+  async countTotalPages() {
+    const count = await this.groupRepository.countTotalGroups();
+    return count[0];
+  }
+
+  async myGroups(id: string) {
+    const groups = await this.groupRepository.myGroups(id);
+    return groups;
+  }
+
+  async deleteGroupByName(groupName: string) {
+    return await this.groupRepository.deleteGroupByName(groupName);
   }
 }

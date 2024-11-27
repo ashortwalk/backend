@@ -65,4 +65,10 @@ export class FeedController {
     }
     return this.feedService.findFeeds(page);
   }
+
+  @Get('/count')
+  countFeeds(@Param() param: { groupId: string }) {
+    const { groupId } = param;
+    return this.feedService.countFeeds(groupId);
+  }
 }

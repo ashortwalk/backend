@@ -80,9 +80,7 @@ export class GroupRepository extends Repository<GroupEntity> {
   }
 
   async countTotalGroups() {
-    return await this.createQueryBuilder('groups')
-      .select('COUNT(groups.id)', 'count')
-      .getRawMany();
+    return await this.count();
   }
 
   async myGroups(userId: string) {

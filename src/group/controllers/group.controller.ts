@@ -20,7 +20,7 @@ import { UpdateGroupDto } from '../dto';
 
 @Controller('api/groups')
 export class GrpupController {
-  constructor(private readonly groupService: GroupService) {}
+  constructor(private readonly groupService: GroupService) { }
 
   @Post()
   @UseGuards(AuthGuard())

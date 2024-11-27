@@ -13,12 +13,12 @@ export class FeedEntity extends BaseEntity {
   userId: string;
 
   @Column({ type: 'varchar' })
-  groupid: string;
+  groupId: string;
 
   @ManyToOne(() => GroupEntity, group => group.feed, {
     nullable: false,
     onDelete: 'CASCADE',
   })
-  group: GroupEntity[]
- 
+  group: GroupEntity
+
 }

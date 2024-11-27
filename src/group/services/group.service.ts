@@ -1,21 +1,32 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { GroupRepository } from '../repositories';
+import { MemberRepository } from '../repositories/member.reopsitory';
 
 @Injectable()
 export class GroupService {
-  constructor(private readonly groupRepository: GroupRepository) { }
+  constructor(
+    private readonly groupRepository: GroupRepository,
+    private readonly memberRepository: MemberRepository,
+  ) {}
 
   async createGroup(
     groupName: string,
     description: string,
     tag: string,
     leaderUserId: string,
+    leaderNickname: string,
   ) {
     const result = await this.groupRepository.createGroup(
       groupName,
       description,
       tag,
       leaderUserId,
+      leaderNickname,
+    );
+    await this.memberRepository.createMember(
+      result.id,
+      leaderUserId,
+      leaderNickname,
     );
     return result;
   }
@@ -60,8 +71,8 @@ export class GroupService {
     return count[0];
   }
 
-  async myGroups(id: string) {
-    const groups = await this.groupRepository.myGroups(id);
+  async myGroups(userId: string) {
+    const groups = await this.groupRepository.myGroups(userId);
     return groups;
   }
 

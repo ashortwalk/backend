@@ -19,13 +19,16 @@ export class GroupRepository extends Repository<GroupEntity> {
     description: string,
     tag: string,
     leaderUserId: string,
+    leaderNickname: string,
   ) {
     const group = new GroupEntity();
+    group.leaderNickname = leaderNickname;
     group.leaderUserId = leaderUserId;
     group.groupName = groupName;
     group.description = description;
     group.tag = tag;
-    return await this.save(group);
+    const result = await this.save(group);
+    return result;
   }
 
   async findGroupById(groupId: string) {
@@ -82,18 +85,21 @@ export class GroupRepository extends Repository<GroupEntity> {
       .getRawMany();
   }
 
-  async myGroups(id: string) {
+  async myGroups(userId: string) {
     return await this.createQueryBuilder('groups')
       .innerJoin('groups.member', 'members')
-      //.innerJoin('members.user', 'users')
-      .where('members.userId = :id', { id })
-      .select(['groups.groupName', 'groups.description'])
+      .where('members.userId = :userId', { userId })
+      .select([
+        'groups.groupName',
+        'groups.description',
+        'groups.leaderNickname',
+      ])
       .getMany();
   }
 
   async deleteGroupByName(groupName: string) {
     const info = await this.findOneBy({ groupName });
-    const id = info.id; //키 아닌 값으로는 softRemove 작동 안됨
+    const id = info.id;
     const group = await this.softRemove({ id });
 
     if (!group) {

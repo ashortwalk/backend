@@ -17,23 +17,24 @@ import { AuthGuard } from '@nestjs/passport';
 import { TokenPayload } from 'src/user/types/user.type';
 import { GroupEntity } from '../entities';
 import { UpdateGroupDto } from '../dto';
+import { Roles } from 'src/user/guard/auth.guard';
 
 @Controller('api/groups')
 export class GrpupController {
-  constructor(private readonly groupService: GroupService) { }
+  constructor(private readonly groupService: GroupService) {}
 
   @Get('count')
   async countTotalPages() {
     return await this.groupService.countTotalPages();
   }
 
-  @Get('mygroups/:id')
-  async myGroups(@Param() param: { id: string }) {
-    const { id } = param;
+  @Get('mygroups')
+  @UseGuards(AuthGuard())
+  async myGroups(@Req() req: { user: TokenPayload }) {
+    const userId = req.user.id;
 
-    return await this.groupService.myGroups(id);
+    return await this.groupService.myGroups(userId);
   }
-
 
   @Post()
   @UseGuards(AuthGuard())
@@ -42,7 +43,7 @@ export class GrpupController {
     @Req() req: { user: TokenPayload },
   ) {
     const leaderUserId = req.user.id;
-    const nickname = req.user.nickname;
+    const leaderNickname = req.user.nickname;
     const groupName = createGroupDto.groupName;
     const description = createGroupDto.description;
     const tag = createGroupDto.tag;
@@ -52,6 +53,7 @@ export class GrpupController {
       description,
       tag,
       leaderUserId,
+      leaderNickname,
     );
   }
 
@@ -100,8 +102,10 @@ export class GrpupController {
     return this.groupService.findGroups(page);
   }
 
-  @Delete('/name/:groupName')
-  async deleteGroupByName(@Req() req, @Param('groupName') groupName: string) {
+  @Delete(':groupName')
+  @UseGuards(AuthGuard())
+  @Roles('admin')
+  async deleteGroupByName(@Param('groupName') groupName: string) {
     return await this.groupService.deleteGroupByName(groupName);
   }
 }

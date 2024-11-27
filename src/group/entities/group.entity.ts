@@ -9,6 +9,9 @@ export class GroupEntity extends BaseEntity {
   leaderUserId: string;
 
   @Column({ type: 'varchar' })
+  leaderNickname: string;
+
+  @Column({ type: 'varchar' })
   groupName: string;
 
   @Column({ type: 'varchar', nullable: true })

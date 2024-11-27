@@ -1,78 +1,68 @@
 import {
-    BadRequestException,
-    Body,
-    Controller,
-    Delete,
-    Get,
-    Param,
-    Patch,
-    Post,
-    Query,
-    Req,
-    UseGuards,
+  BadRequestException,
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Query,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { FeedService } from '../services/feed.services';
-// import { CreateGroupDto } from '../dto';
 import { AuthGuard } from '@nestjs/passport';
 import { TokenPayload } from 'src/user/types/user.type';
-import { FeedEntity } from '../entities/feed.entity';
-// import { UpdateGroupDto } from '../dto';
 
 @Controller('api/groups/:groupId/feeds')
 export class FeedController {
-    constructor(private readonly feedService: FeedService) { }
+  constructor(private readonly feedService: FeedService) {}
 
-    @Post()
-    @UseGuards(AuthGuard())
-    async feedGroup(
-        @Param() param,
-        @Body() body: { content: string },
-        @Req() req: { user: TokenPayload },
-    ) {
-        const content = body.content;
-        const userId = req.user.id;
-        const { groupId } = param
+  @Post()
+  @UseGuards(AuthGuard())
+  async feedGroup(
+    @Param() param,
+    @Body() body: { content: string },
+    @Req() req: { user: TokenPayload },
+  ) {
+    const content = body.content;
+    const userId = req.user.id;
+    const { groupId } = param;
 
-        return await this.feedService.createFeed(
-            content,
-            userId,
-            groupId
-        );
+    return await this.feedService.createFeed(content, userId, groupId);
+  }
+
+  @Patch(':feedId')
+  @UseGuards(AuthGuard())
+  async updateGroup(
+    @Req() req: { user: TokenPayload },
+    @Param() param: { groupId: string; feedId: string },
+    @Body() body: { content: string },
+  ) {
+    const { feedId } = param;
+    const { content } = body;
+    if (!feedId) {
+      throw new BadRequestException();
     }
+    return await this.feedService.updateFeed(content, feedId);
+  }
 
-    @Patch(':feedId')
-    @UseGuards(AuthGuard())
-    async updateGroup(
-        @Req() req: { user: TokenPayload },
-        @Param() param: { groupId: string, feedId: string },
-        @Body() body: { content: string }
-    ) {
-        const { feedId } = param;
-        const { content } = body;
-        if (!feedId) {
-            throw new BadRequestException();
-        }
-        return await this.feedService.updateFeed(
-            content, feedId
+  @Delete(':feedId')
+  @UseGuards(AuthGuard())
+  async deleteUser(@Req() req, @Param() param: { feedId: string }) {
+    const { feedId } = param;
+    const userId = req.user.id;
+    const role = req.user.role;
+    return await this.feedService.deleteFeed(userId, role, feedId);
+  }
 
-        );
+  @Get()
+  getFeeds(@Query() query: { page: number }) {
+    let { page } = query;
+    if (!page) {
+      page = 1;
     }
-
-    @Delete(':feedId')
-    @UseGuards(AuthGuard())
-    async deleteUser(@Req() req, @Param() param: { feedId: string }) {
-        const { feedId } = param
-        const userId = req.user.id;
-        const role = req.user.role;
-        return await this.feedService.deleteFeed(userId, role, feedId);
-    }
-
-    @Get()
-    getFeeds(@Query() query: { page: number }) {
-        let { page } = query;
-        if (!page) {
-            page = 1;
-        }
-        return this.feedService.findFeeds(page);
-    }
+    return this.feedService.findFeeds(page);
+  }
 }

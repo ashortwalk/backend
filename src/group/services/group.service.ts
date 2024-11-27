@@ -68,7 +68,7 @@ export class GroupService {
 
   async countTotalPages() {
     const count = await this.groupRepository.countTotalGroups();
-    return count[0];
+    return Math.ceil(count[0] / 3);
   }
 
   async myGroups(userId: string) {

@@ -39,7 +39,7 @@ export class FeedService {
     return Feeds;
   }
 
-  countFeeds(groupId: string) {
-    return this.feedRepository.countFeeds(groupId);
+  async countFeeds(groupId: string) {
+    return Math.ceil((await this.feedRepository.countFeeds(groupId)) / 3);
   }
 }

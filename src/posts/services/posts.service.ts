@@ -4,7 +4,6 @@ import { PostRepository } from '../repositories/posts.repository';
 import { AzureBlobService } from './azure-blob.service';
 import { ResizeImagePipe } from './resize.service';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import 'multer';
 
 @Injectable()
 export class PostService {
@@ -17,7 +16,7 @@ export class PostService {
   async createPost(
     userId: string,
     nickname: string,
-    file: Express.Multer.File,
+    file,
     createPostDto: CreatePostDto,
   ) {
     let imgURL = null;
@@ -55,7 +54,7 @@ export class PostService {
     userId: string,
     postId: string,
     updatePostDto: UpdatePostDto,
-    file: Express.Multer.File,
+    file,
   ) {
     const post = await this.postRepository.findPostById(postId);
     if (post.userId !== userId) {

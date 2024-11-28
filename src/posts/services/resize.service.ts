@@ -1,12 +1,11 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import * as sharp from 'sharp';
-import 'multer';
 
 const MAX_LENGTH = 300;
 
 @Injectable()
 export class ResizeImagePipe implements PipeTransform {
-  transform(value: Express.Multer.File): Promise<Express.Multer.File> {
+  transform(value) {
     const filetype = value.mimetype.split('/');
     if (filetype[0] !== 'image') {
       throw new BadRequestException();
@@ -15,7 +14,7 @@ export class ResizeImagePipe implements PipeTransform {
     return this.resizeImage(value);
   }
 
-  async resizeImage(value: Express.Multer.File): Promise<Express.Multer.File> {
+  async resizeImage(value) {
     let width: number;
     let height: number;
 

@@ -19,10 +19,7 @@ export class AzureBlobService {
     return blobClient;
   }
 
-  async upload(
-    file: Express.Multer.File,
-    containerName: string,
-  ): Promise<string> {
+  async upload(file, containerName: string): Promise<string> {
     try {
       this.containerName = containerName;
       const pdfUrl = uuid() + file.originalname;

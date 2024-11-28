@@ -20,7 +20,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { UpdatePostDto } from '../dto/update-post.dto';
 import { TokenPayload } from 'src/user/types/user.type';
 import { PostEntity } from '../entities';
-import 'multer';
 
 @Controller('api/posts')
 export class PostsController {
@@ -36,7 +35,7 @@ export class PostsController {
   @UseInterceptors(FileInterceptor('file'))
   async createPost(
     @Req() req: { user: TokenPayload },
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file,
     @Body() createPostDto: CreatePostDto,
   ) {
     const userId = req.user.id;
@@ -74,7 +73,7 @@ export class PostsController {
     @Req() req: { user: TokenPayload },
     @Param() param: { postId: string },
     @Body() updatePostDto: UpdatePostDto,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFile() file: File,
   ) {
     const userId = req.user.id;
     const { postId } = param;

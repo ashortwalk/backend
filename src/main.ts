@@ -15,6 +15,6 @@ async function bootstrap() {
     credentials: true,
     exposedHeaders: ['Authorization', 'appKey'], // * 사용할 헤더 추가.
   });
-  await app.listen(process.env.PORT ?? 8000);
+  await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

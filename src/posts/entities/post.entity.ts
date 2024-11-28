@@ -1,5 +1,5 @@
 import { CommentEntity } from 'src/comments/entities';
-import { BaseEntity } from 'src/common/enitty';
+import { BaseEntity } from 'src/common/entity';
 import { UserEntity } from 'src/user/entities';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
@@ -37,6 +37,4 @@ export class PostEntity extends BaseEntity {
 
   @OneToMany(() => CommentEntity, comment => comment.post, { cascade: true })
   comment: CommentEntity[];
-
- 
 }

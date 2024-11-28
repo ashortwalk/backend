@@ -1,5 +1,5 @@
 import { CommentEntity } from 'src/comments/entities';
-import { BaseEntity } from 'src/common/enitty';
+import { BaseEntity } from 'src/common/entity';
 import { GroupEntity } from 'src/group/entities';
 import { UserEntity } from 'src/user/entities';
 import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
@@ -19,6 +19,5 @@ export class FeedEntity extends BaseEntity {
     nullable: false,
     onDelete: 'CASCADE',
   })
-  group: GroupEntity
-
+  group: GroupEntity;
 }

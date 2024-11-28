@@ -1,4 +1,4 @@
-import { BaseEntity } from 'src/common/enitty';
+import { BaseEntity } from 'src/common/entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { UserEntity } from './user.entity';
 import { ContentType } from '../types/report.type';

@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany } from 'typeorm';
 import { MemberEntity } from './member.entity';
-import { BaseEntity } from 'src/common/enitty';
+import { BaseEntity } from 'src/common/entity';
 import { FeedEntity } from 'src/feeds/entities/feed.entity';
 
 @Entity('Groups')

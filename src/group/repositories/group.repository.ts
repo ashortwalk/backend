@@ -91,6 +91,7 @@ export class GroupRepository extends Repository<GroupEntity> {
         'groups.groupName',
         'groups.description',
         'groups.leaderNickname',
+        'groups.leaderUserId',
         'groups.id',
       ])
       .getMany();

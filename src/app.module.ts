@@ -32,6 +32,10 @@ dotenv.config();
       database: process.env.DB_NAME,
       entities: ['dist/**/**.entity.{js,ts}'],
       synchronize: true,
+      ssl:
+        process.env.NODE_ENV === 'production'
+          ? { rejectUnauthorized: false }
+          : false,
     }),
 
     AuthModule,

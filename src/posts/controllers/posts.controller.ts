@@ -73,7 +73,7 @@ export class PostsController {
     @Req() req: { user: TokenPayload },
     @Param() param: { postId: string },
     @Body() updatePostDto: UpdatePostDto,
-    @UploadedFile() file: File,
+    @UploadedFile() file,
   ) {
     const userId = req.user.id;
     const { postId } = param;

@@ -6,8 +6,8 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "build": "npm install -g @nestjs/cli && npm i  && nest build",
-    "start": "nest start",
+    "build": "npm install -g @nestjs/cli && npm i  && nest build ",
+    "start": "node dist/main",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",

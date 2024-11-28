@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { BlobServiceClient, BlockBlobClient } from '@azure/storage-blob';
 import { v4 as uuid } from 'uuid';
+import { Multer } from 'multer';
+
 @Injectable()
 export class AzureBlobService {
   private containerName: string;

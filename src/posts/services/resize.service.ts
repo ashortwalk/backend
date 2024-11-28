@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 import * as sharp from 'sharp';
-import { Multer } from 'multer';
+import 'multer';
 
 const MAX_LENGTH = 300;
 

@@ -4,7 +4,7 @@ import { PostRepository } from '../repositories/posts.repository';
 import { AzureBlobService } from './azure-blob.service';
 import { ResizeImagePipe } from './resize.service';
 import { UpdatePostDto } from '../dto/update-post.dto';
-import { Multer } from 'multer';
+import 'multer';
 
 @Injectable()
 export class PostService {

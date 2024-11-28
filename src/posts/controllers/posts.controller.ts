@@ -20,7 +20,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UpdatePostDto } from '../dto/update-post.dto';
 import { TokenPayload } from 'src/user/types/user.type';
 import { PostEntity } from '../entities';
-import { Multer } from 'multer';
+import 'multer';
 
 @Controller('api/posts')
 export class PostsController {

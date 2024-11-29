@@ -96,16 +96,22 @@ export class UserService {
       type,
     );
 
-    const accessToken = await this.createAccessToken({
-      id: result.id,
-      role: result.role,
-      nickname: result.nickname,
-    });
-    const refreshToken = await this.createRefreshToken({
-      id: result.id,
-      role: result.role,
-      nickname: result.nickname,
-    });
+    const accessToken = await this.createAccessToken(
+      {
+        id: result.id,
+        role: result.role,
+        nickname: result.nickname,
+      },
+      result,
+    );
+    const refreshToken = await this.createRefreshToken(
+      {
+        id: result.id,
+        role: result.role,
+        nickname: result.nickname,
+      },
+      result,
+    );
     return { accessToken, refreshToken };
   }
 
@@ -129,7 +135,7 @@ export class UserService {
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });
 
     await this.accessTokenRepository.saveAccessToken(
-      user,
+      user.id,
       token,
       Number(expiresIn),
     );
@@ -144,7 +150,7 @@ export class UserService {
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });
 
     await this.refreshTokenRepository.saveRefreshToken(
-      user,
+      user.id,
       token,
       Number(expiresIn),
     );

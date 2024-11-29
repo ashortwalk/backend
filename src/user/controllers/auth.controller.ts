@@ -30,7 +30,7 @@ export class AuthController {
   async kakaoCallback(@Req() req, @Res() res) {
     const result = await this.authService.kakaoLogin(req);
     return res.redirect(
-      `http://127.0.0.1:3000/posts?refreshtoken=${result.refreshToken}&accesstoken=${result.accessToken}`,
+      `https://ashortwalk-gkd3dvdpfcexb0ce.koreacentral-01.azurewebsites.net/posts?refreshtoken=${result.refreshToken}&accesstoken=${result.accessToken}`,
     );
   }
 

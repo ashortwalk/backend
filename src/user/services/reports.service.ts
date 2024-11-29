@@ -42,7 +42,7 @@ export class ReportService {
     try {
       const response = await firstValueFrom(
         this.httpService.delete(
-          `http://127.0.0.1:8000/api/${contentType}/${contentId}`,
+          `https://shortwalk-f3byftbfe4czehcg.koreacentral-01.azurewebsites.net/api/${contentType}/${contentId}`,
           {
             headers: {
               Authorization: authorization,

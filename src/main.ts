@@ -7,11 +7,7 @@ dotenv.config();
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://127.0.0.1:3000',
-      'http://127.0.0.1:8000',
-    ],
+    origin: ['ashortwalk-gkd3dvdpfcexb0ce.koreacentral-01.azurewebsites.net'],
     credentials: true,
     exposedHeaders: ['Authorization', 'appKey'], // * 사용할 헤더 추가.
   });

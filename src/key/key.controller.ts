@@ -4,13 +4,8 @@ import { Controller, Get } from '@nestjs/common';
 export class KeyController {
   constructor() { }
 
-  @Get('gpt')
+  @Get()
   async gptKey() {
-    return { gptKey: process.env.GPT_API_KEY };
-  }
-
-  @Get('stt')
-  async sttKey() {
-    return { sttKey: process.env.STT_API_KEY };
+    return { gptKey: process.env.GPT_API_KEY, sttKey: process.env.STT_API_KEY };
   }
 }

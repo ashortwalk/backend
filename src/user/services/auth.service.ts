@@ -1,6 +1,10 @@
-import { BadRequestException, Injectable, Req } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  Injectable,
+  Req,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { UserEntity } from '../entities';
 import { AccessTokenRepository, UserRepository } from '../repositories';
 import { RefreshTokenRepository } from '../repositories';
 import { UserService } from './user.service';
@@ -22,22 +26,16 @@ export class AuthService {
     const role = req.user.role;
     const nickname = req.user.nickname;
     if (existingUser) {
-      const accessToken = await this.createAccessToken(
-        {
-          id: existingUser.id,
-          role: existingUser.role,
-          nickname: existingUser.nickname,
-        },
-        existingUser,
-      );
-      const refreshToken = await this.createRefreshToken(
-        {
-          id: existingUser.id,
-          role: existingUser.role,
-          nickname: existingUser.nickname,
-        },
-        existingUser,
-      );
+      const accessToken = await this.createAccessToken({
+        id: existingUser.id,
+        role: existingUser.role,
+        nickname: existingUser.nickname,
+      });
+      const refreshToken = await this.createRefreshToken({
+        id: existingUser.id,
+        role: existingUser.role,
+        nickname: existingUser.nickname,
+      });
       return { accessToken, refreshToken };
     }
     const user = await this.userService.createUser(
@@ -49,30 +47,24 @@ export class AuthService {
     return user;
   }
 
-  async createAccessToken(
-    payload: TokenPayload,
-    user: UserEntity,
-  ): Promise<string> {
+  async createAccessToken(payload: TokenPayload): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });
 
     await this.accessTokenRepository.saveAccessToken(
-      user,
+      payload.id,
       token,
       Number(expiresIn),
     );
     return token;
   }
 
-  async createRefreshToken(
-    payload: TokenPayload,
-    user: UserEntity,
-  ): Promise<string> {
+  async createRefreshToken(payload: TokenPayload): Promise<string> {
     const expiresIn = process.env.ACCESS_EXPIRES_IN;
     const token = 'Bearer ' + this.jwtService.sign({ payload }, { expiresIn });
 
     await this.refreshTokenRepository.saveRefreshToken(
-      user,
+      payload.id,
       token,
       Number(expiresIn),
     );
@@ -91,14 +83,16 @@ export class AuthService {
     if (!result) {
       throw new BadRequestException();
     }
-    const accessToken = await this.createAccessToken(
-      { id: user.id, role: user.role, nickname: user.nickname },
-      user,
-    );
-    const refreshToken = await this.createRefreshToken(
-      { id: user.id, role: user.role, nickname: user.nickname },
-      user,
-    );
+    const accessToken = await this.createAccessToken({
+      id: user.id,
+      role: user.role,
+      nickname: user.nickname,
+    });
+    const refreshToken = await this.createRefreshToken({
+      id: user.id,
+      role: user.role,
+      nickname: user.nickname,
+    });
     return { accessToken, refreshToken };
   }
 
@@ -113,5 +107,21 @@ export class AuthService {
       googleClientId: process.env.GOOGLE_CLIENT_ID,
       googleRedirectURI: process.env.GOOGLE_CALLBACK_URL,
     };
+  }
+  refresh(refreshToken: string) {
+    const user = this.jwtService.verify(refreshToken, {
+      secret: process.env.REFRESH_JWT_SECRET,
+    });
+
+    if (!user) {
+      throw new ForbiddenException('Invalid token');
+    }
+    const accessToken = this.createAccessToken({
+      id: user.id,
+      role: user.role,
+      nickname: user.nickname,
+    });
+
+    return { accessToken };
   }
 }

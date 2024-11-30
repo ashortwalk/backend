@@ -14,12 +14,12 @@ export class MessageService {
 
   // 메시지 저장
   async saveMessage(
-    userId: string,
+    nickname: string,
     room: string,
     content: string,
   ): Promise<Message> {
     const newMessage = new this.messageModel({
-      userId,
+      nickname,
       room,
       content,
     });
@@ -28,6 +28,10 @@ export class MessageService {
 
   // 특정 방의 메시지 조회
   async getMessagesByRoom(room: string): Promise<Message[]> {
-    return this.messageModel.find({ room }).sort({ createdAt: 1 }).exec();
+    return this.messageModel
+      .find({ room })
+      .sort({ createdAt: -1 })
+      .limit(10) // 최근 10개만 가져오기
+      .exec();
   }
 }

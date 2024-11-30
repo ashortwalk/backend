@@ -35,7 +35,8 @@ export class MemberRepository extends Repository<MemberEntity> {
   }
 
   async findMember(groupId: string, userId: string): Promise<MemberEntity> {
-    const member = await this.findOneBy({ groupId, userId });
+    const member = await this.findOne({ where: { groupId, userId } });
+
     return member;
   }
   async deleteMember(groupId: string, userId: string): Promise<boolean> {

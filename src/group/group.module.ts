@@ -24,6 +24,6 @@ dotenv.config();
   ],
   controllers: [GrpupController, MemberController],
   providers: [GroupService, GroupRepository, MemberService, MemberRepository],
-  exports: [GroupRepository],
+  exports: [GroupRepository, MemberService, MemberRepository],
 })
 export class GroupModule {}

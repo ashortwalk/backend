@@ -1,6 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
+import { IoAdapter } from '@nestjs/platform-socket.io';
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ async function bootstrap() {
     credentials: true,
     exposedHeaders: ['Authorization', 'appKey'], // * 사용할 헤더 추가.
   });
+  app.useWebSocketAdapter(new IoAdapter(app));
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

@@ -12,9 +12,9 @@ import { CommentModule } from './comments/comments.module';
 import { GroupModule } from './group/group.module';
 import { FeedModule } from './feeds/feed.module';
 import { HealthController } from './health.controller';
-import { ChatGateway } from './chat/chat.gateway';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessageModel, MessageSchema } from './chat/schemas/message.schema';
+import { ChatModule } from './chat/chat.module';
 
 dotenv.config();
 
@@ -50,8 +50,9 @@ dotenv.config();
     CommentModule,
     GroupModule,
     FeedModule,
+    ChatModule,
   ],
   controllers: [KeyController, HealthController],
-  providers: [JwtStrategy, RedisModule, ChatGateway],
+  providers: [JwtStrategy, RedisModule],
 })
 export class AppModule {}

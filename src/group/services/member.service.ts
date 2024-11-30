@@ -18,8 +18,8 @@ export class MemberService {
     );
     return result;
   }
-  findMember(groupId: string, userId: string): Promise<MemberEntity> {
-    const result = this.memberRepository.findMember(groupId, userId);
+  async findMember(groupId: string, userId: string): Promise<MemberEntity> {
+    const result = await this.memberRepository.findMember(groupId, userId);
     return result;
   }
 

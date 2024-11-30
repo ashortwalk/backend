@@ -7,6 +7,7 @@ import { GroupModule } from 'src/group/group.module'; // 그룹 관련 서비스
 import { AuthModule } from 'src/user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { ModuleRef } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -20,4 +21,6 @@ import { PassportModule } from '@nestjs/passport';
   ],
   providers: [ChatGateway, MessageService],
 })
-export class ChatModule {}
+export class ChatModule {
+  constructor(private readonly moduleRef: ModuleRef) {}
+}

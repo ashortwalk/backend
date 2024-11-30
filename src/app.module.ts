@@ -15,6 +15,7 @@ import { HealthController } from './health.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessageModel, MessageSchema } from './chat/schemas/message.schema';
 import { ChatModule } from './chat/chat.module';
+import { ModuleRef } from '@nestjs/core';
 
 dotenv.config();
 
@@ -55,4 +56,6 @@ dotenv.config();
   controllers: [KeyController, HealthController],
   providers: [JwtStrategy, RedisModule],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(private readonly moduleRef: ModuleRef) {}
+}

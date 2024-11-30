@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
-import * as sharp from 'sharp';
+import sharp from 'sharp';
 
 const MAX_LENGTH = 300;
 

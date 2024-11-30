@@ -33,6 +33,11 @@ export class MemberRepository extends Repository<MemberEntity> {
     const members = await this.findBy({ groupId });
     return members;
   }
+
+  async findMember(groupId: string, userId: string): Promise<MemberEntity> {
+    const member = await this.findOneBy({ groupId, userId });
+    return member;
+  }
   async deleteMember(groupId: string, userId: string): Promise<boolean> {
     const member = await this.findOneBy({ groupId, userId });
     const isDeleted = await this.softRemove({ id: member.id });

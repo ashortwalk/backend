@@ -12,11 +12,18 @@ import { CommentModule } from './comments/comments.module';
 import { GroupModule } from './group/group.module';
 import { FeedModule } from './feeds/feed.module';
 import { HealthController } from './health.controller';
+import { ChatGateway } from './chat/chat.gateway';
+import { MongooseModule } from '@nestjs/mongoose';
+import { MessageModel, MessageSchema } from './chat/schemas/message.schema';
 
 dotenv.config();
 
 @Module({
   imports: [
+    MongooseModule.forRoot(process.env.MONGODB_URL),
+    MongooseModule.forFeature([
+      { name: MessageModel.name, schema: MessageSchema },
+    ]),
     JwtModule.register({
       secret: process.env.JWT_SECRET,
     }),
@@ -45,6 +52,6 @@ dotenv.config();
     FeedModule,
   ],
   controllers: [KeyController, HealthController],
-  providers: [JwtStrategy, RedisModule],
+  providers: [JwtStrategy, RedisModule, ChatGateway],
 })
 export class AppModule {}

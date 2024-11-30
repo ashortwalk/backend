@@ -6,6 +6,6 @@ export class HealthController {
 
   @Get()
   healthCheck(@Res() res) {
-    return res.status(200).send('Hello World!');
+    return res.status(200).send('Hello Short Walk!');
   }
 }

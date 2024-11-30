@@ -27,8 +27,21 @@ export class MemberController {
 
     return await this.memberService.createMember(groupId, userId, nickname);
   }
-
+  @Get('check')
+  @UseGuards(AuthGuard())
+  getMember(
+    @Param() param: { groupId: string },
+    @Req() req,
+  ): Promise<MemberEntity> {
+    const { groupId } = param;
+    if (!groupId) {
+      throw new BadRequestException();
+    }
+    const userId = req.user.id;
+    return this.memberService.findMember(groupId, userId);
+  }
   @Get()
+  @UseGuards(AuthGuard())
   getMembers(@Param() param: { groupId: string }): Promise<MemberEntity[]> {
     const { groupId } = param;
     if (!groupId) {

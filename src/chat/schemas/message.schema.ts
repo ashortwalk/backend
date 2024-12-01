@@ -18,3 +18,4 @@ export const MessageModel = {
   name: 'Message',
   schema: MessageSchema,
 };
+//

@@ -12,7 +12,7 @@ import { MemberService } from 'src/group/services/member.service';
 import { MessageService } from './services/message.service';
 import { JwtService } from '@nestjs/jwt';
 
-@WebSocketGateway(8001, {
+@WebSocketGateway({
   namespace: 'chat',
   cors: {
     origin: [

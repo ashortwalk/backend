@@ -132,6 +132,6 @@ export class AuthService {
       nickname: user.nickname,
     });
 
-    return { accessToken };
+    return accessToken;
   }
 }

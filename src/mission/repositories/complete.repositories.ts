@@ -20,6 +20,7 @@ export class CompleteRepository extends Repository<CompleteEntity> {
   }
   async createComplete(userId: string, groupId: string) {
     const mission = await this.missionRepository.findMissionById(groupId);
+
     const complete = new CompleteEntity();
     complete.userId = userId;
     complete.groupId = groupId;
@@ -30,6 +31,7 @@ export class CompleteRepository extends Repository<CompleteEntity> {
 
   async countCompletes(groupId: string) {
     const mission = await this.missionRepository.findMissionById(groupId);
+    console.log(mission);
     return await this.count({ where: { missionId: mission.id } });
   }
 }

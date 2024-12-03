@@ -7,7 +7,7 @@ export class GroupService {
   constructor(
     private readonly groupRepository: GroupRepository,
     private readonly memberRepository: MemberRepository,
-  ) { }
+  ) {}
 
   async createGroup(
     groupName: string,
@@ -71,14 +71,12 @@ export class GroupService {
     return Math.ceil(count / 3);
   }
 
-  async myGroups(userId: string) {
-    const groups = await this.groupRepository.myGroups(userId);
+  async myGroups(userId: string, page: number) {
+    const groups = await this.groupRepository.myGroups(userId, page);
     return groups;
   }
 
   async deleteGroupByName(groupName: string) {
     return await this.groupRepository.deleteGroupByName(groupName);
   }
-
-
 }

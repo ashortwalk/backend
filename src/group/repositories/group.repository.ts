@@ -83,7 +83,8 @@ export class GroupRepository extends Repository<GroupEntity> {
     return await this.count();
   }
 
-  async myGroups(userId: string) {
+  async myGroups(userId: string, page: number) {
+    const limit = 3;
     return await this.createQueryBuilder('groups')
       .innerJoin('groups.member', 'members')
       .where('members.userId = :userId', { userId })
@@ -94,6 +95,8 @@ export class GroupRepository extends Repository<GroupEntity> {
         'groups.leaderUserId',
         'groups.id',
       ])
+      .offset((page - 1) * limit)
+      .limit(limit)
       .getMany();
   }
 
@@ -109,9 +112,9 @@ export class GroupRepository extends Repository<GroupEntity> {
   }
 
   async updatePoint(groupId: string, count: number) {
-    const group = await this.findOneBy({ id: groupId })
+    const group = await this.findOneBy({ id: groupId });
 
-    group.point = group.point + count
-    return await this.save(group)
+    group.point = group.point + count;
+    return await this.save(group);
   }
 }

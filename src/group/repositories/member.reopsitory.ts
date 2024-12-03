@@ -34,12 +34,10 @@ export class MemberRepository extends Repository<MemberEntity> {
     return members;
   }
 
-
   async countMembers(groupId: string): Promise<number> {
     const count = await this.count({ where: { groupId } });
     return count;
   }
-
 
   async findMember(groupId: string, userId: string): Promise<MemberEntity> {
     const member = await this.findOne({ where: { groupId, userId } });

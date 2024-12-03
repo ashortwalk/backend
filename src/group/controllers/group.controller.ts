@@ -18,6 +18,7 @@ import { TokenPayload } from 'src/user/types/user.type';
 import { GroupEntity } from '../entities';
 import { UpdateGroupDto } from '../dto';
 import { Roles } from 'src/user/guard/auth.guard';
+import { query } from 'express';
 
 @Controller('api/groups')
 export class GrpupController {
@@ -30,10 +31,13 @@ export class GrpupController {
 
   @Get('mygroups')
   @UseGuards(AuthGuard())
-  async myGroups(@Req() req: { user: TokenPayload }) {
+  async myGroups(
+    @Req() req: { user: TokenPayload },
+    @Query() query: { page: number },
+  ) {
     const userId = req.user.id;
-
-    return await this.groupService.myGroups(userId);
+    const { page } = query;
+    return await this.groupService.myGroups(userId, page);
   }
 
   @Post()

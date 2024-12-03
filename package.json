@@ -7,7 +7,7 @@
   "license": "UNLICENSED",
   "homepage": "/build",
   "scripts": {
-    "build": "npm install -g @nestjs/cli && npm i  && nest build && cd client && cd npm i ",
+    "build": "npm install -g @nestjs/cli && npm i  && nest build && cd client && npm i ",
     "start:client": "cd client && node server.js",
     "start:server": "node dist/main.js",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

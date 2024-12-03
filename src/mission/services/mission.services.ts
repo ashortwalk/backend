@@ -33,5 +33,9 @@ export class MissionService {
     return Mission;
   }
 
+  async updateMission(content: string, missionId: string) {
+    return await this.missionRepository.updateMission(content, missionId);
+  }
+
 
 }

@@ -28,6 +28,4 @@ export class GroupEntity extends BaseEntity {
 
   @OneToMany(() => FeedEntity, feed => feed.group, { cascade: true })
   feed: FeedEntity[];
-
-
 }

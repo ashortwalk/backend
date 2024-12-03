@@ -55,7 +55,6 @@ export class ReportService {
         throw new BadRequestException();
       }
     } catch (err) {
-      console.log(err);
       throw new InternalServerErrorException();
     }
     return await this.reportsRepository.deleteReport(reportId);

@@ -10,9 +10,10 @@ export class CompleteService {
   ) {}
 
   async createCompelete(userId: string, groupId: string) {
+    const mission = await this.missionRepository.findMissionById(groupId);
     const isComplete = await this.compeleteReopsitory.findComplete(
       userId,
-      groupId,
+      mission.id,
     );
     if (isComplete) {
       throw new ConflictException();

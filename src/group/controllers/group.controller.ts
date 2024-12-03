@@ -18,7 +18,6 @@ import { TokenPayload } from 'src/user/types/user.type';
 import { GroupEntity } from '../entities';
 import { UpdateGroupDto } from '../dto';
 import { Roles } from 'src/user/guard/auth.guard';
-import { query } from 'express';
 
 @Controller('api/groups')
 export class GrpupController {
@@ -38,6 +37,13 @@ export class GrpupController {
     const userId = req.user.id;
     const { page } = query;
     return await this.groupService.myGroups(userId, page);
+  }
+
+  @Get('mygroups/count')
+  @UseGuards(AuthGuard())
+  async countMyGroups(@Req() req: { user: TokenPayload }) {
+    const userId = req.user.id;
+    return await this.groupService.countMyGroups(userId);
   }
 
   @Post()

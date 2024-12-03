@@ -59,7 +59,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
           groupId,
           user.payload.id,
         );
-        console.log(isMember);
+
         if (!isMember) {
           socket.emit('error', 'You are not a member of this group');
           socket.disconnect();
@@ -90,7 +90,7 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // MongoDB에 메시지 저장
     await this.messageService.saveMessage(nickname, room, message);
     const sendRoom = this.rooms[room];
-    console.log(this.rooms);
+
     // 방에 메시지 전송
     sendRoom?.forEach(user => {
       const userSocketId = this.users[user];

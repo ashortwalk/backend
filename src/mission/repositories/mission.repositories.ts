@@ -29,8 +29,9 @@ export class MissionRepository extends Repository<MissionEntity> {
   }
 
   async findMissionById(groupId: string) {
-    const mission = await this.findOne({ where: { groupId } });
-
+    const mission = await this.findOne({
+      where: { groupId },
+    });
     return mission;
   }
 

@@ -59,7 +59,7 @@ export class MissionService {
       throw new UnauthorizedException();
     }
     const compeleteCount =
-      await this.compeleteReopsitory.countCompletes(missionId);
+      await this.compeleteReopsitory.countCompletes(groupId);
     if (compeleteCount !== 0) {
       throw new BadRequestException();
     }
@@ -73,9 +73,8 @@ export class MissionService {
   async deleteMission(userId: string, role: string, groupId: string) {
     const mission = await this.missionRepository.findMissionById(groupId);
     const membersCount = await this.memberRepository.countMembers(groupId);
-    const compeleteCount = await this.compeleteReopsitory.countCompletes(
-      mission.id,
-    );
+    const compeleteCount =
+      await this.compeleteReopsitory.countCompletes(groupId);
     if (role !== 'admin') {
       if (userId !== mission.leaderId) {
         throw new BadRequestException();
@@ -83,7 +82,6 @@ export class MissionService {
     }
 
     if (membersCount > compeleteCount) {
-      console.log('here');
       throw new BadRequestException();
     }
     const count = await this.memberRepository.countMembers(groupId);

@@ -73,7 +73,7 @@ export class GroupRepository extends Repository<GroupEntity> {
       skip: (page - 1) * limit,
       take: limit,
       order: {
-        createdAt: 'DESC',
+        point: 'DESC',
       },
     });
     return groups;
@@ -87,7 +87,9 @@ export class GroupRepository extends Repository<GroupEntity> {
     const limit = 3;
     return await this.createQueryBuilder('groups')
       .innerJoin('groups.member', 'members')
-      .where('members.userId = :userId', { userId })
+      .where('members.userId = :userId', {
+        userId,
+      })
       .select([
         'groups.groupName',
         'groups.description',
@@ -95,9 +97,27 @@ export class GroupRepository extends Repository<GroupEntity> {
         'groups.leaderUserId',
         'groups.id',
       ])
-      .offset((page - 1) * limit)
+      .distinct(true)
       .limit(limit)
+      .offset((page - 1) * limit)
       .getMany();
+  }
+
+  async countMyGroups(userId: string) {
+    return await this.createQueryBuilder('groups')
+      .innerJoin('groups.member', 'members')
+      .where('members.userId = :userId', {
+        userId,
+      })
+      .select([
+        'groups.groupName',
+        'groups.description',
+        'groups.leaderNickname',
+        'groups.leaderUserId',
+        'groups.id',
+      ])
+      .distinct(true)
+      .getCount();
   }
 
   async deleteGroupByName(groupName: string) {

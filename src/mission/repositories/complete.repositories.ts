@@ -15,8 +15,8 @@ export class CompleteRepository extends Repository<CompleteEntity> {
   ) {
     super(repo.target, repo.manager, repo.queryRunner);
   }
-  async findComplete(userId: string, groupId: string) {
-    return await this.findOne({ where: { userId, groupId } });
+  async findComplete(userId: string, missionId: string) {
+    return await this.findOne({ where: { userId, missionId } });
   }
   async createComplete(userId: string, groupId: string) {
     const mission = await this.missionRepository.findMissionById(groupId);
@@ -31,7 +31,7 @@ export class CompleteRepository extends Repository<CompleteEntity> {
 
   async countCompletes(groupId: string) {
     const mission = await this.missionRepository.findMissionById(groupId);
-    console.log(mission);
+    if (!mission) return 0;
     return await this.count({ where: { missionId: mission.id } });
   }
 }

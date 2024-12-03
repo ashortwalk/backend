@@ -75,7 +75,12 @@ export class GroupService {
     const groups = await this.groupRepository.myGroups(userId, page);
     return groups;
   }
-
+  async countMyGroups(userId: string) {
+    const count = Math.ceil(
+      (await this.groupRepository.countMyGroups(userId)) / 3,
+    );
+    return count;
+  }
   async deleteGroupByName(groupName: string) {
     return await this.groupRepository.deleteGroupByName(groupName);
   }

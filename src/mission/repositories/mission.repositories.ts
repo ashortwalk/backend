@@ -27,12 +27,25 @@ export class MissionRepository extends Repository<MissionEntity> {
     Mission.title = title;
     return await this.save(Mission);
   }
+
   async findMissionById(missionId: string) {
     const Mission = await this.findOneBy({ id: missionId });
     if (!Mission) {
       throw new BadRequestException();
     }
     return Mission;
+  }
+
+  async updateMission(content: string, missionId: string) {
+    const Mission = await this.findOneBy({ id: missionId });
+    if (!Mission) {
+      throw new BadRequestException();
+    }
+
+    Mission.content = content;
+
+    const updateMission = this.save(Mission);
+    return updateMission;
   }
 
 

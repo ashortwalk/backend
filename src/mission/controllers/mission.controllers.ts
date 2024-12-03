@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Post, Req, UseGuards, Get } from '@nestjs/common';
+import { Body, Controller, Param, Post, Req, UseGuards, Get, Patch, BadRequestException } from '@nestjs/common';
 import { MissionService } from '../services/mission.services';
 import { AuthGuard } from '@nestjs/passport';
 import { TokenPayload } from 'src/user/types/user.type';
@@ -33,6 +33,22 @@ export class MissionController {
   ) {
     const { missionId } = param;
     return this.missionService.findMission(missionId);
+  }
+
+  @Patch(':missionId')
+  @UseGuards(AuthGuard())
+  async updateGroup(
+    @Req() req: { user: TokenPayload },
+    @Param() param: { missionId: string, groupId: string },
+    @Body() body: { content: string },
+  ) {
+    const { missionId, groupId } = param;
+    const { content } = body;
+    const userId = req.user.id;
+    if (!missionId) {
+      throw new BadRequestException();
+    }
+    return await this.missionService.updateMission(content, missionId, userId, groupId);
   }
 
 

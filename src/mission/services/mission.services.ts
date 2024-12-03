@@ -33,5 +33,14 @@ export class MissionService {
     return Mission;
   }
 
+  async updateMission(content: string, missionId: string, userId: string, groupId: string,) {
+
+    const group = await this.groupRepository.findGroupById(groupId);
+    if (group.leaderUserId !== userId) {
+      throw new UnauthorizedException();
+    }
+    return await this.missionRepository.updateMission(content, missionId);
+  }
+
 
 }

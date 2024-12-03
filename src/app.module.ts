@@ -17,9 +17,6 @@ import { MessageModel, MessageSchema } from './chat/schemas/message.schema';
 import { ChatModule } from './chat/chat.module';
 import { ModuleRef } from '@nestjs/core';
 import { MissionModule } from './mission/mission.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
-import { StaticController } from './static.controller';
 
 dotenv.config();
 
@@ -58,7 +55,7 @@ dotenv.config();
     ChatModule,
     MissionModule,
   ],
-  controllers: [KeyController, HealthController, StaticController],
+  controllers: [KeyController, HealthController],
   providers: [JwtStrategy, RedisModule],
 })
 export class AppModule {

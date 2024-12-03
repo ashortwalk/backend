@@ -39,15 +39,16 @@ export class MissionController {
   @UseGuards(AuthGuard())
   async updateGroup(
     @Req() req: { user: TokenPayload },
-    @Param() param: { missionId: string; },
+    @Param() param: { missionId: string, groupId: string },
     @Body() body: { content: string },
   ) {
-    const { missionId } = param;
+    const { missionId, groupId } = param;
     const { content } = body;
+    const userId = req.user.id;
     if (!missionId) {
       throw new BadRequestException();
     }
-    return await this.missionService.updateMission(content, missionId);
+    return await this.missionService.updateMission(content, missionId, userId, groupId);
   }
 
 

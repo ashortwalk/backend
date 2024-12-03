@@ -4,20 +4,18 @@ import { CompleteEntity } from './complete.entity';
 
 @Entity('Mission')
 export class MissionEntity extends BaseEntity {
-  @Column({ type: 'varchar' })
-  content: string;
+    @Column({ type: 'varchar' })
+    content: string;
 
-  @Column({ type: 'varchar' })
-  title: string;
+    @Column({ type: 'varchar' })
+    title: string;
 
-  @Column({ type: 'varchar' })
-  leaderId: string;
+    @Column({ type: 'varchar' })
+    leaderId: string;
 
-  @Column({ type: 'varchar' })
-  groupId: string;
+    @Column({ type: 'varchar' })
+    groupId: string;
 
-  @OneToMany(() => CompleteEntity, complete => complete.mission, {
-    cascade: true,
-  })
-  complete: CompleteEntity[];
+    @OneToMany(() => CompleteEntity, complete => complete.mission, { cascade: true })
+    complete: CompleteEntity[];
 }

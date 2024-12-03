@@ -12,6 +12,7 @@ import { CommentModule } from './comments/comments.module';
 import { GroupModule } from './group/group.module';
 import { FeedModule } from './feeds/feed.module';
 import { HealthController } from './health.controller';
+import { MissionModule } from './mission/mission.module';
 
 dotenv.config();
 
@@ -39,8 +40,9 @@ dotenv.config();
     CommentModule,
     GroupModule,
     FeedModule,
+    MissionModule,
   ],
   controllers: [KeyController, HealthController],
   providers: [JwtStrategy, RedisModule],
 })
-export class AppModule {}
+export class AppModule { }

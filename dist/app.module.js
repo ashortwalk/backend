@@ -21,6 +21,7 @@ const comments_module_1 = require("./comments/comments.module");
 const group_module_1 = require("./group/group.module");
 const feed_module_1 = require("./feeds/feed.module");
 const health_controller_1 = require("./health.controller");
+const mission_module_1 = require("./mission/mission.module");
 dotenv.config();
 let AppModule = class AppModule {
 };
@@ -48,6 +49,7 @@ exports.AppModule = AppModule = __decorate([
             comments_module_1.CommentModule,
             group_module_1.GroupModule,
             feed_module_1.FeedModule,
+            mission_module_1.MissionModule,
         ],
         controllers: [key_controller_1.KeyController, health_controller_1.HealthController],
         providers: [jwt_strategy_1.JwtStrategy, redis_1.RedisModule],

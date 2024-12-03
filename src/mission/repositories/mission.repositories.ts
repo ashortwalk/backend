@@ -20,20 +20,6 @@ export class MissionRepository extends Repository<MissionEntity> {
     userId: string,
     groupId: string,
   ) {
-    const Mission = new MissionEntity();
-    Mission.content = content;
-    Mission.leaderId = userId;
-    Mission.groupId = groupId;
-    Mission.title = title;
-    return await this.save(Mission);
-  }
-
-  async createMission(
-    title: string,
-    content: string,
-    userId: string,
-    groupId: string,
-  ) {
     const mission = new MissionEntity();
     mission.content = content;
     mission.leaderId = userId;

@@ -28,7 +28,12 @@ dotenv.config();
     PassportModule.register({ defaultStrategy: 'jwt' }),
   ],
   controllers: [MissionController, CompleteController],
-  providers: [MissionService, MissionRepository, CompleteRepository, CompleteService],
+  providers: [
+    MissionService,
+    MissionRepository,
+    CompleteRepository,
+    CompleteService,
+  ],
   exports: [],
 })
-export class MissionModule { }
+export class MissionModule {}

@@ -17,11 +17,11 @@ import { TokenPayload } from 'src/user/types/user.type';
 
 @Controller('api/groups/:groupId/feeds')
 export class FeedController {
-  constructor(private readonly feedService: FeedService) {}
+  constructor(private readonly feedService: FeedService) { }
 
   @Post()
   @UseGuards(AuthGuard())
-  async feedGroup(
+  async createGroup(
     @Param() param,
     @Body() body: { content: string },
     @Req() req: { user: TokenPayload },

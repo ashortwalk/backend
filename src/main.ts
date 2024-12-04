@@ -12,6 +12,7 @@ async function bootstrap() {
       'http://localhost:3000',
       'http://127.0.0.1:3000',
       'http://20.41.86.171',
+      'https://devleveling.com',
     ],
     credentials: true,
     exposedHeaders: ['Authorization', 'appKey'], // * 사용할 헤더 추가.

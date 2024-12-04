@@ -65,5 +65,3 @@
 ![erd](https://github.com/user-attachments/assets/39d203af-db06-4ddb-803f-9abba658c61a)
 
 # ⛏️ Project Architecture
-
-<img width="984" alt="architecture" src="https://github.com/user-attachments/assets/052e0019-9746-4b02-b0cb-5dd90bd3e888">

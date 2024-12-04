@@ -19,7 +19,7 @@ import { JwtService } from '@nestjs/jwt';
     origin: [
       'http://localhost:3000',
       'http://127.0.0.1:3000',
-      'https://ashortwalk-gkd3dvdpfcexb0ce.koreacentral-01.azurewebsites.net',
+      'http://20.41.86.171/',
     ],
     methods: ['GET', 'POST'],
     credentials: true,

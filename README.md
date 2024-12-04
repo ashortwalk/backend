@@ -64,7 +64,7 @@
 
 ![erd](https://github.com/user-attachments/assets/39d203af-db06-4ddb-803f-9abba658c61a)
 
-# ⛏️ Project Architecture
+# ⛏️ Project Server
 <img width="1008" alt="Architecture" src="https://github.com/user-attachments/assets/067e8cb9-7cce-4e87-854a-27ce84c9e26d">
 
 

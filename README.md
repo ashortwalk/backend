@@ -48,7 +48,7 @@
 - 채팅 : Socket.io
 - 로그인 : KAKAO API, Passport, nodemailer, JWT, Argon2
 - 이미지 업로드 : Azure Storage (Container, Blob), Sharp (리사이징, webp 변환)
-- 배포 : Azure App Services (CI/CD - 포크된 리더 개인 레포지토리에서 진행)
+- 배포 : Azure (Ubuntu linux 20.04)
 
 # 📋 API
 

@@ -24,6 +24,6 @@ dotenv.config();
   ],
   controllers: [CommentsController, AdminCommentController],
   providers: [CommentsService, CommentsRepository, RedisModule],
-  exports: [],
+  exports: [CommentsRepository],
 })
 export class CommentModule {}

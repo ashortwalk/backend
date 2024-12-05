@@ -56,15 +56,7 @@
 
 # 📋 API
 
-- 기획 단계에서 작성하여 추가된 기능에 대한 명세가 없습니다.
-
-[User API 명세서](https://suave-prawn-3cc.notion.site/Users-API-12d244ea9138809c8e4ece1de5b1d1d6)
-
-[Posts API 명세서](https://suave-prawn-3cc.notion.site/Posts-API-12e244ea9138805c86eff064a9e4bc48)
-
-[Comments API 명세서](https://suave-prawn-3cc.notion.site/Comments-API-12f244ea913880a88945e9492bc1ce93)
-
-[Reports API 명세서](https://suave-prawn-3cc.notion.site/Reports-API-12f244ea9138806a86cce9f048ea504a)
+[바로가기](https://documenter.getpostman.com/view/27386865/2sAYBaBAfu)
 
 # 📔 ERD
 

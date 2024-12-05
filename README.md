@@ -11,11 +11,10 @@
 - 팀 명  
   zeroeqaulszero (영은영)
 - 팀원 소개  
-  | 이름 | 백엔드 담당 기능 |
-  | ----- | ------------------- |  
+  | 이름 | 백엔드 담당 기능 | | ----- | ------------------- |  
   | 이다영 | 산책 경로 추천, 산책 성향 통계, 채팅, 관리자, 게시판, 댓글, 유저, 신고 |  
   | 한영희 | 피드, 미션 |  
-  | 조은혜 | 그룹 |  
+  | 조은혜 | 그룹 |
 
 - 개발 일정  
   2024년 11월 19일 ~ 2024년 12월 2일 (2주)
@@ -36,7 +35,7 @@
   - 게시글 작성 카테고리 분류에 따른 산책 성향 통계
   - 카카오 소셜 로그인
   - 실시간 채팅
-  - 게시판, 피드, 그룹, 신고
+  - 게시판, 피드, 그룹, 신고, 미션
 
 # ✒️ Coding Convention
 
@@ -56,6 +55,8 @@
 
 # 📋 API
 
+- 기획 단계에서 작성하여 추가된 기능에 대한 명세가 없습니다.
+
 [User API 명세서](https://suave-prawn-3cc.notion.site/Users-API-12d244ea9138809c8e4ece1de5b1d1d6)
 
 [Posts API 명세서](https://suave-prawn-3cc.notion.site/Posts-API-12e244ea9138805c86eff064a9e4bc48)
@@ -69,6 +70,5 @@
 ![erd](https://github.com/user-attachments/assets/39d203af-db06-4ddb-803f-9abba658c61a)
 
 # ⛏️ Project Server
+
 <img width="1008" alt="Architecture" src="https://github.com/user-attachments/assets/067e8cb9-7cce-4e87-854a-27ce84c9e26d">
-
-

@@ -17,7 +17,11 @@ export class ReportRepository extends Repository<ReportEntity> {
 
   async findReports(page: number) {
     const limit = 3;
-    return await this.find({ skip: (page - 1) * limit, take: limit });
+    return await this.find({
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { createdAt: -1 },
+    });
   }
 
   async createReport(

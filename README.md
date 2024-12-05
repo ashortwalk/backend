@@ -68,7 +68,8 @@
 
 # 📔 ERD
 
-![ERD](https://github.com/user-attachments/assets/3ecd5695-d5b9-4400-9c0c-f826ead0ddda)
+![ERD](https://github.com/user-attachments/assets/1be7e6ed-928c-42f9-a680-82fd7bab840b)
+
 
 
 # ⛏️ Project Server

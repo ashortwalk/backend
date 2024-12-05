@@ -69,6 +69,7 @@ export class PostRepository extends Repository<PostEntity> {
         createdAt: true,
         nickname: true,
         viewCount: true,
+        category:true,
       },
       skip: (page - 1) * limit,
       take: limit,

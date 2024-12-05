@@ -42,7 +42,7 @@ export class ReportService {
     try {
       const response = await firstValueFrom(
         this.httpService.delete(
-          `https://shortwalk-f3byftbfe4czehcg.koreacentral-01.azurewebsites.net/api/${contentType}/${contentId}`,
+          `https://ashortwalk.store/api/${contentType}/${contentId}`,
           {
             headers: {
               Authorization: authorization,
@@ -55,6 +55,7 @@ export class ReportService {
         throw new BadRequestException();
       }
     } catch (err) {
+      console.log(err);
       throw new InternalServerErrorException();
     }
     return await this.reportsRepository.deleteReport(reportId);

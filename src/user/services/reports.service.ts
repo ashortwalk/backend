@@ -1,20 +1,19 @@
-import {
-  BadRequestException,
-  Injectable,
-  InternalServerErrorException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { ReportRepository } from '../repositories/reports.repository';
 import { CreateReportDto } from '../dto/create-report.dto';
 import { ReportEntity } from '../entities';
 import { HttpService } from '@nestjs/axios';
 
-import { firstValueFrom } from 'rxjs';
+import { CommentsRepository } from 'src/comments/repositories';
+import { PostRepository } from 'src/posts/repositories/posts.repository';
 
 @Injectable()
 export class ReportService {
   constructor(
     private readonly reportsRepository: ReportRepository,
     private readonly httpService: HttpService,
+    private readonly commentsRepository: CommentsRepository,
+    private readonly postRepository: PostRepository,
   ) {}
 
   async findReports(page: number) {
@@ -38,25 +37,10 @@ export class ReportService {
       throw new BadRequestException();
     }
     const { contentType, contentId } = report;
-
-    try {
-      const response = await firstValueFrom(
-        this.httpService.delete(
-          `https://ashortwalk.store/api/${contentType}/${contentId}`,
-          {
-            headers: {
-              Authorization: authorization,
-              'Content-Type': 'application/json',
-            },
-          },
-        ),
-      );
-      if (response.status >= 300) {
-        throw new BadRequestException();
-      }
-    } catch (err) {
-      console.log(err);
-      throw new InternalServerErrorException();
+    if (contentType == 'posts') {
+      this.postRepository.deletePostById(contentId);
+    } else if (contentType == 'comments') {
+      this.commentsRepository.deleteComment(contentId);
     }
     return await this.reportsRepository.deleteReport(reportId);
   }

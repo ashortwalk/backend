@@ -1,3 +1,9 @@
+// roles.decorator.ts
+import { SetMetadata } from '@nestjs/common';
+
+export const Roles = (...roles: string[]) => SetMetadata('roles', roles);
+
+// auth.guard.ts
 import {
   Injectable,
   CanActivate,
@@ -5,7 +11,6 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-import { SetMetadata } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
 
@@ -18,6 +23,8 @@ export class AuthGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const roles = this.reflector.get<string[]>('roles', context.getHandler());
+
+    console.log('Roles from metadata:', roles);  // 역할 메타데이터 확인
 
     if (!roles) {
       throw new ForbiddenException('No roles provided');
@@ -41,7 +48,7 @@ export class AuthGuard implements CanActivate {
         secret: process.env.ACCESS_JWT_SECRET,
       });
 
-      if (!user) {
+      if (!user || !user.payload || !user.payload.role) {
         throw new ForbiddenException('Invalid token');
       }
 
@@ -56,5 +63,3 @@ export class AuthGuard implements CanActivate {
     }
   }
 }
-
-export const Roles = (...roles: string[]) => SetMetadata('roles', roles);

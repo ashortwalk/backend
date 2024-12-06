@@ -14,13 +14,13 @@ import { ReportService } from '../services/reports.service';
 import { AuthGuard } from '@nestjs/passport';
 import { TokenPayload } from '../types/user.type';
 import { Roles } from '../guard/auth.guard';
-
+import { RolesGuard } from '../guard/roles.guard';
 @Controller('api/reports')
 export class ReportController {
   constructor(private readonly reportService: ReportService) {}
 
   @Get()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @Roles('admin')
   getReports(@Query() query) {
     const { page } = query;
@@ -28,7 +28,7 @@ export class ReportController {
   }
 
   @Get('count')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @Roles('admin')
   getReportsCount() {
     return this.reportService.countReports();
@@ -45,7 +45,7 @@ export class ReportController {
   }
 
   @Delete(':reportId')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard(), RolesGuard)
   @Roles('admin')
   async deleteReport(@Req() req, @Param() param: { reportId: string }) {
     const { reportId } = param;

@@ -19,12 +19,11 @@ import { ReportRepository } from './repositories/reports.repository';
 import { ReportService } from './services/reports.service';
 import { ReportController } from './controllers/report.controller';
 import { HttpModule } from '@nestjs/axios';
-import { CommentModule } from 'src/comments/comments.module';
-import { PostsModule } from 'src/posts/post.module';
 import { PostRepository } from 'src/posts/repositories/posts.repository';
 import { CommentsRepository } from 'src/comments/repositories';
 import { PostEntity } from 'src/posts/entities';
 import { CommentEntity } from 'src/comments/entities';
+import { AuthGuard } from './guard';
 
 dotenv.config();
 
@@ -54,6 +53,7 @@ dotenv.config();
     UserRepository,
     ReportService,
     ReportRepository,
+    AuthGuard,
   ],
   exports: [UserRepository],
 })

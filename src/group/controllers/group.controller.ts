@@ -13,7 +13,7 @@ import {
 } from '@nestjs/common';
 import { GroupService } from '../services';
 import { CreateGroupDto } from '../dto';
-import { AuthGuard } from '@nestjs/passport';
+import { AuthGuard } from 'src/user/guard';
 import { TokenPayload } from 'src/user/types/user.type';
 import { GroupEntity } from '../entities';
 import { UpdateGroupDto } from '../dto';
@@ -29,7 +29,8 @@ export class GrpupController {
   }
 
   @Get('mygroups')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
+  @Roles('user', 'admin')
   async myGroups(
     @Req() req: { user: TokenPayload },
     @Query() query: { page: number },
@@ -40,14 +41,16 @@ export class GrpupController {
   }
 
   @Get('mygroups/count')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
+  @Roles('user', 'admin')
   async countMyGroups(@Req() req: { user: TokenPayload }) {
     const userId = req.user.id;
     return await this.groupService.countMyGroups(userId);
   }
 
   @Post()
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
+  @Roles('user', 'admin')
   async createGroup(
     @Body() createGroupDto: CreateGroupDto,
     @Req() req: { user: TokenPayload },
@@ -77,7 +80,8 @@ export class GrpupController {
   }
 
   @Patch(':id')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
+  @Roles('user', 'admin')
   async updateGroup(
     @Req() req: { user: TokenPayload },
     @Param() param: { id: string },
@@ -96,7 +100,8 @@ export class GrpupController {
   }
 
   @Delete(':id')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
+  @Roles('user', 'admin')
   async deleteUser(@Req() req, @Param('id') id: string) {
     const userId = req.user.id;
     const role = req.user.role;
@@ -113,7 +118,7 @@ export class GrpupController {
   }
 
   @Delete(':groupName')
-  @UseGuards(AuthGuard())
+  @UseGuards(AuthGuard)
   @Roles('admin')
   async deleteGroupByName(@Param('groupName') groupName: string) {
     return await this.groupService.deleteGroupByName(groupName);

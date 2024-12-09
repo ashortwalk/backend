@@ -36,6 +36,7 @@ export class ReportController {
 
   @Post()
   @UseGuards(AuthGuard)
+  @Roles('user', 'admin')
   createReport(
     @Req() req: { user: TokenPayload },
     @Body() createReportDto: CreateReportDto,

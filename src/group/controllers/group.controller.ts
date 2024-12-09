@@ -17,7 +17,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { TokenPayload } from 'src/user/types/user.type';
 import { GroupEntity } from '../entities';
 import { UpdateGroupDto } from '../dto';
-import { Roles } from 'src/user/guard/auth.guard';
+import { Roles } from 'src/user/guard/roles.decorator';
 
 @Controller('api/groups')
 export class GrpupController {

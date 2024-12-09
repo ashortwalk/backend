@@ -1,7 +1,7 @@
 import { Controller, Get, Param, UseGuards } from '@nestjs/common';
 import { CommentsService } from '../services';
 import { AuthGuard } from '@nestjs/passport';
-import { Roles } from 'src/user/guard/auth.guard';
+import { Roles } from 'src/user/guard/roles.decorator';
 
 @Controller('api/comments')
 export class AdminCommentController {

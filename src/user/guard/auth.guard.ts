@@ -1,8 +1,3 @@
-// roles.decorator.ts
-import { SetMetadata } from '@nestjs/common';
-
-export const Roles = (...roles: string[]) => SetMetadata('roles', roles);
-
 // auth.guard.ts
 import {
   Injectable,
@@ -57,6 +52,7 @@ export class AuthGuard implements CanActivate {
         throw new ForbiddenException('User does not have the required role');
       }
 
+      request.user = user.payload;
       return true;
     } catch (error) {
       throw new ForbiddenException('Invalid or expired token');

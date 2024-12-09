@@ -15,9 +15,8 @@ import { HealthController } from './health.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { MessageModel, MessageSchema } from './chat/schemas/message.schema';
 import { ChatModule } from './chat/chat.module';
-import { APP_GUARD, ModuleRef } from '@nestjs/core';
+import { ModuleRef } from '@nestjs/core';
 import { MissionModule } from './mission/mission.module';
-import { RolesGuard } from './user/guard/roles.guard';
 
 dotenv.config();
 
@@ -57,14 +56,7 @@ dotenv.config();
     MissionModule,
   ],
   controllers: [KeyController, HealthController],
-  providers: [
-    JwtStrategy,
-    RedisModule,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
-  ],
+  providers: [JwtStrategy, RedisModule],
 })
 export class AppModule {
   constructor(private readonly moduleRef: ModuleRef) {}
